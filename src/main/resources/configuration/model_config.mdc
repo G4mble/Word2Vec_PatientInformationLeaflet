@@ -1,0 +1,9 @@
+minWordFrequency=10
+iterations=1
+epochs=1
+layerSize=100
+windowSize=5
+negativeSample=10
+seed=45
+useHierarchicSoftmax=true
+allowParallelTokenization=false
