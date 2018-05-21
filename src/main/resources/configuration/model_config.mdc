@@ -1,9 +1,14 @@
-minWordFrequency=10
+minWordFrequency=3
 iterations=1
 epochs=1
-layerSize=100
+layerSize=300
 windowSize=5
 negativeSample=10
 seed=45
 useHierarchicSoftmax=true
 allowParallelTokenization=false
+iteratorSource=singleFile
+dataPath=data/combined.txt
+stopWordsPath=configuration/stopWords.txt
+ngramMin=1
+ngramMax=3

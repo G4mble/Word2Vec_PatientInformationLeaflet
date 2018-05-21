@@ -1,18 +1,27 @@
 package com.EEB.PatientInformationLeaflet.Word2Vec;
 
 import com.EEB.PatientInformationLeaflet.Configuration.ProcessConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.slf4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ModelTrainingController
 {
     private final ProcessConfiguration _processConfig;
+    private final DateFormat _dateFormat;
     private final Logger _log;
 
     private Word2Vec w2vModel;
 
     public ModelTrainingController(ProcessConfiguration config, Logger log)
     {
+        _dateFormat = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
         _processConfig = config;
         _log = log;
     }
@@ -44,5 +53,24 @@ public class ModelTrainingController
         _log.info("Start model training...");
         w2vModel.fit();
         _log.info("Model training complete.");
+    }
+
+    public boolean saveVocabularyToFile()
+    {
+        try
+        {
+            FileUtils.writeLines(new File("vocabulary_" + _dateFormat.format(new Date()) + ".txt"), w2vModel.getVocab().words());
+            return true;
+        }
+        catch (IOException ex)
+        {
+            _log.error("Unexpected error in saveVocabularyToFile", ex);
+        }
+        return false;
+    }
+
+    public Word2Vec getWord2VecModel()
+    {
+        return this.w2vModel;
     }
 }

@@ -4,8 +4,8 @@ import org.deeplearning4j.text.tokenization.tokenizer.TokenPreProcess;
 
 import java.util.regex.Pattern;
 
-public class GermanTokenStemmingPreprocessor implements TokenPreProcess {
-
+public class GermanTokenStemmingPreprocessor implements TokenPreProcess
+{
     private final Pattern _preprocessPattern = Pattern.compile("[\\d!\"§$%&/()=?`ß´²³{\\[\\]}\\\\+*~#'\\-_.:,;<>|^°@€\\uFFFD]+");
     private final Pattern _nonAsciiPattern = Pattern.compile("[^\\x00-\\x7F]");
 
@@ -14,6 +14,8 @@ public class GermanTokenStemmingPreprocessor implements TokenPreProcess {
     {
         String output = _preprocessPattern.matcher(token.toLowerCase()).replaceAll("");
         output = _nonAsciiPattern.matcher(output).replaceAll("").trim();
+        //TODO TS evaluate stemming
+        output = GermanLanguageStemmer.stem(output, true);
         return output.length() > 1 ? output : "";
     }
 }
