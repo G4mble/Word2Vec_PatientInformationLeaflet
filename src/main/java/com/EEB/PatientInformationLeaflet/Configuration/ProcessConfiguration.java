@@ -67,54 +67,61 @@ public class ProcessConfiguration
 
     private boolean processLineContent(String line)
     {
+        line = line.replaceAll("\\%.*?\\%", "");
+        if(line.length() == 0)
+            return true; //config still valid as we just removed a commented line or hit an empty line
+
         String[] elements = line.split("=");
-        if (elements.length > 2)
+        if (elements.length != 2)
             return false;
 
+        String leftHandSide = elements[0].trim();
+        String rightHandSide = elements[1].trim();
         try
         {
-            switch (elements[0])
+            switch (leftHandSide)
             {
                 case "minWordFrequency":
-                    minWordFrequency = Integer.parseInt(elements[1]);
+                    minWordFrequency = Integer.parseInt(rightHandSide);
                     break;
                 case "iterations":
-                    iterations = Integer.parseInt(elements[1]);
+                    iterations = Integer.parseInt(rightHandSide);
                     break;
                 case "epochs":
-                    epochs = Integer.parseInt(elements[1]);
+                    epochs = Integer.parseInt(rightHandSide);
+                    break;
                 case "layerSize":
-                    layerSize = Integer.parseInt(elements[1]);
+                    layerSize = Integer.parseInt(rightHandSide);
                     break;
                 case "windowSize":
-                    windowSize = Integer.parseInt(elements[1]);
+                    windowSize = Integer.parseInt(rightHandSide);
                     break;
                 case "negativeSample":
-                    negativeSample = Integer.parseInt(elements[1]);
+                    negativeSample = Integer.parseInt(rightHandSide);
                     break;
                 case "seed":
-                    seed = Long.parseLong(elements[1]);
+                    seed = Long.parseLong(rightHandSide);
                     break;
                 case "useHierarchicSoftmax":
-                    useHierarchicSoftmax = Boolean.parseBoolean(elements[1]);
+                    useHierarchicSoftmax = Boolean.parseBoolean(rightHandSide);
                     break;
                 case "allowParallelTokenization":
-                    allowParallelTokenization = Boolean.parseBoolean(elements[1]);
+                    allowParallelTokenization = Boolean.parseBoolean(rightHandSide);
                     break;
                 case "iteratorSource":
-                    _iteratorSource = elements[1];
+                    _iteratorSource = rightHandSide;
                     break;
                 case "dataPath":
-                    _dataPath = elements[1];
+                    _dataPath = rightHandSide;
                     break;
                 case "stopWordsPath":
-                    _stopWordFilePath = elements[1];
+                    _stopWordFilePath = rightHandSide;
                     break;
                 case "ngramMin":
-                    _ngramMin = Integer.parseInt(elements[1]);
+                    _ngramMin = Integer.parseInt(rightHandSide);
                     break;
                 case "ngramMax":
-                    _ngramMax = Integer.parseInt(elements[1]);
+                    _ngramMax = Integer.parseInt(rightHandSide);
                     break;
                 default:
                     return false;
@@ -123,6 +130,7 @@ public class ProcessConfiguration
         }
         catch (NumberFormatException ex)
         {
+            _log.error("Unexpected error in processLineContent", ex);
             return false;
         }
     }

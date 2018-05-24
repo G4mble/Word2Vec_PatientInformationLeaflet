@@ -1,14 +1,16 @@
-minWordFrequency=3
-iterations=1
-epochs=1
-layerSize=300
-windowSize=5
-negativeSample=10
-seed=45
-useHierarchicSoftmax=true
-allowParallelTokenization=false
-iteratorSource=singleFile
-dataPath=data/combined.txt
-stopWordsPath=configuration/stopWords.txt
-ngramMin=1
-ngramMax=3
+% SINGLE LINE COMMENTS CAN BE ADDED ENCLOSED BY PERCENT SIGNS %
+
+minWordFrequency=3                          % minimum number of occurences until a word is regarded as relevant %
+iterations=1                                % number of times a batch size is iterated %
+epochs=1                                    % number of times the whole corpus is iterated %
+layerSize=300                               % dimensions of the feature vector %
+windowSize=5                                % size of the context window %
+negativeSample=10                           %  %
+seed=45                                     % seed for random init of word vectors %
+useHierarchicSoftmax=true                   % true || false %
+allowParallelTokenization=false             % true || false %
+iteratorSource=singleFile                   % 'singleFile' || 'directory' %
+dataPath=data/combined.txt                  % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
+stopWordsPath=configuration/stopWords.txt   % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
+ngramMin=1                                  % minimum n-gram length %
+ngramMax=3                                  % maximum n-gram length %

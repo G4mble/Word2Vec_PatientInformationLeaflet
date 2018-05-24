@@ -41,7 +41,7 @@ public class GermanNGramTokenizer implements Tokenizer
                     List<String> originalTokensSlice = new ArrayList(originalTokens.subList(j, j + i));
                     originalTokensSlice.removeIf(x -> x == null || x.length() < 2);
                     if(!originalTokensSlice.isEmpty())
-                        this.tokens.add(StringUtils.join(originalTokensSlice, " "));
+                        this.tokens.add(StringUtils.join(originalTokensSlice, "_"));
                 }
             }
         }

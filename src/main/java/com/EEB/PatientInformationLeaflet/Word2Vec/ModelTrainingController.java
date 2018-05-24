@@ -2,6 +2,7 @@ package com.EEB.PatientInformationLeaflet.Word2Vec;
 
 import com.EEB.PatientInformationLeaflet.Configuration.ProcessConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.slf4j.Logger;
 
@@ -46,7 +47,7 @@ public class ModelTrainingController
                 .build();
     }
 
-    public void startTraining()
+    public void trainModel()
     {
         _log.info("Building model...");
         w2vModel = initializeModel();
@@ -55,10 +56,26 @@ public class ModelTrainingController
         _log.info("Model training complete.");
     }
 
+    public boolean saveModelToFile()
+    {
+        try
+        {
+            _log.info("Saving model...");
+            WordVectorSerializer.writeWord2VecModel(w2vModel, "model_output_" + _dateFormat.format(new Date()) + "_test.cmf");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _log.error("Unexpected error in saveModelToFile", ex);
+        }
+        return false;
+    }
+
     public boolean saveVocabularyToFile()
     {
         try
         {
+            _log.info("Saving vocabulary...");
             FileUtils.writeLines(new File("vocabulary_" + _dateFormat.format(new Date()) + ".txt"), w2vModel.getVocab().words());
             return true;
         }

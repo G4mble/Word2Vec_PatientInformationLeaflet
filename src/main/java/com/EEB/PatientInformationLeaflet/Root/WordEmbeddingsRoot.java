@@ -23,7 +23,9 @@ public class WordEmbeddingsRoot
     {
         ProcessConfiguration config = new ProcessConfiguration(_configFilePath, _log);
         ModelTrainingController trainingController = new ModelTrainingController(config, _log);
-        trainingController.startTraining();
+        trainingController.trainModel();
+        trainingController.saveModelToFile();
+        //TODO TS eval
         trainingController.saveVocabularyToFile();
 
         //TODO TS just some evaluation remove for final commit
