@@ -15,7 +15,7 @@ public class GermanTokenStemmingPreprocessor implements TokenPreProcess
         String output = _preprocessPattern.matcher(token.toLowerCase()).replaceAll("");
         output = _nonAsciiPattern.matcher(output).replaceAll("").trim();
         //TODO TS evaluate stemming
-        output = GermanLanguageStemmer.stem(output, true);
-        return output.length() > 1 ? output : "";
+//        output = GermanLanguageStemmer.stem(output, true);
+        return output.length() > 2 ? output : "";
     }
 }

@@ -3,6 +3,7 @@ package com.EEB.PatientInformationLeaflet.Configuration;
 import com.EEB.PatientInformationLeaflet.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.EEB.Tokenizer.GermanNGramTokenizerFactory;
 import org.datavec.api.util.ClassPathResource;
+import org.deeplearning4j.text.documentiterator.DocumentIterator;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.FileSentenceIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -30,21 +30,27 @@ public class ProcessConfiguration
     private int layerSize;
     private int windowSize;
     private int negativeSample;
+    private int workers;
+    private int ngramMin;
+    private int ngramMax;
+    private int batchSize;
 
     private long seed;
 
     private boolean useHierarchicSoftmax;
     private boolean allowParallelTokenization;
+    private boolean configureUptraining;
+
+    private String dataPath;
+    private String startingModelPath;
 
     private List<String> stopWords;
 
-    private SentenceIterator iterator;
+    private SentenceIterator sentenceIterator;
+    private DocumentIterator documentIterator;
     private TokenizerFactory tokenizer;
 
-    private int _ngramMin;
-    private int _ngramMax;
     private String _iteratorSource;
-    private String _dataPath;
     private String _stopWordFilePath;
     private final String _configFilePath;
     private final Logger _log;
@@ -68,7 +74,7 @@ public class ProcessConfiguration
     private boolean processLineContent(String line)
     {
         line = line.replaceAll("\\%.*?\\%", "");
-        if(line.length() == 0)
+        if (line.length() == 0)
             return true; //config still valid as we just removed a commented line or hit an empty line
 
         String[] elements = line.split("=");
@@ -112,16 +118,28 @@ public class ProcessConfiguration
                     _iteratorSource = rightHandSide;
                     break;
                 case "dataPath":
-                    _dataPath = rightHandSide;
+                    dataPath = rightHandSide;
                     break;
                 case "stopWordsPath":
                     _stopWordFilePath = rightHandSide;
                     break;
                 case "ngramMin":
-                    _ngramMin = Integer.parseInt(rightHandSide);
+                    ngramMin = Integer.parseInt(rightHandSide);
                     break;
                 case "ngramMax":
-                    _ngramMax = Integer.parseInt(rightHandSide);
+                    ngramMax = Integer.parseInt(rightHandSide);
+                    break;
+                case "workers":
+                    workers = Integer.parseInt(rightHandSide);
+                    break;
+                case "startingModelPath":
+                    startingModelPath = rightHandSide;
+                    break;
+                case "configureUptraining":
+                    configureUptraining = Boolean.parseBoolean(rightHandSide);
+                    break;
+                case "batchSize":
+                    batchSize = Integer.parseInt(rightHandSide);
                     break;
                 default:
                     return false;
@@ -137,17 +155,18 @@ public class ProcessConfiguration
 
     private void initializeWord2VecComponents()
     {
-        //initialize dataset and iterator
+        //initialize dataset and sentenceIterator
         try
         {
-            File dataset = new File (new ClassPathResource(_dataPath).getFile().getAbsolutePath());
-            switch(_iteratorSource)
+            File dataset = new File(new ClassPathResource(dataPath).getFile().getAbsolutePath());
+            switch (_iteratorSource)
             {
                 case "singleFile":
-                    iterator = new BasicLineIterator(dataset);
+                    sentenceIterator = new BasicLineIterator(dataset);
                     break;
                 case "directory":
-                    iterator = new FileSentenceIterator(dataset);
+                    sentenceIterator = new FileSentenceIterator(dataset);
+//                    documentIterator = new FileDocumentIterator(dataset);
                     break;
                 default:
                     _log.error("Invalid iteratorSource-Type in config file!");
@@ -161,7 +180,7 @@ public class ProcessConfiguration
 
         //initialize tokenizer
         TokenizerFactory defaultTokenizerFactory = new DefaultTokenizerFactory();
-        tokenizer = new GermanNGramTokenizerFactory(defaultTokenizerFactory, _ngramMin, _ngramMax);
+        tokenizer = new GermanNGramTokenizerFactory(defaultTokenizerFactory, ngramMin, ngramMax);
         tokenizer.setTokenPreProcessor(new GermanTokenStemmingPreprocessor());
     }
 
@@ -204,7 +223,8 @@ public class ProcessConfiguration
     {
         loadConfigurationFromFile(_configFilePath);
         loadStopWordsFromFile(_stopWordFilePath);
-        initializeWord2VecComponents();
+        if(!configureUptraining)
+            initializeWord2VecComponents();
     }
 
     //</editor-fold>
@@ -251,9 +271,14 @@ public class ProcessConfiguration
         return useHierarchicSoftmax;
     }
 
-    public SentenceIterator getIterator()
+    public String getDataPath()
     {
-        return iterator;
+        return dataPath;
+    }
+
+    public SentenceIterator getSentenceIterator()
+    {
+        return sentenceIterator;
     }
 
     public TokenizerFactory getTokenizer()
@@ -269,6 +294,41 @@ public class ProcessConfiguration
     public boolean allowParallelTokenization()
     {
         return allowParallelTokenization;
+    }
+
+    public int getWorkers()
+    {
+        return workers;
+    }
+
+    public String getStartingModelPath()
+    {
+        return startingModelPath;
+    }
+
+    public int getNgramMin()
+    {
+        return ngramMin;
+    }
+
+    public int getNgramMax()
+    {
+        return ngramMax;
+    }
+
+    public boolean getConfigureUptraining()
+    {
+        return configureUptraining;
+    }
+
+    public DocumentIterator getDocumentIterator()
+    {
+        return documentIterator;
+    }
+
+    public int getBatchSize()
+    {
+        return batchSize;
     }
 
     //</editor-fold>

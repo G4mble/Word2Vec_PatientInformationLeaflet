@@ -1,16 +1,56 @@
 % SINGLE LINE COMMENTS CAN BE ADDED ENCLOSED BY PERCENT SIGNS %
 
-minWordFrequency=3                          % minimum number of occurences until a word is regarded as relevant %
-iterations=1                                % number of times a batch size is iterated %
-epochs=1                                    % number of times the whole corpus is iterated %
-layerSize=300                               % dimensions of the feature vector %
-windowSize=5                                % size of the context window %
-negativeSample=10                           %  %
-seed=45                                     % seed for random init of word vectors %
-useHierarchicSoftmax=true                   % true || false %
-allowParallelTokenization=false             % true || false %
-iteratorSource=singleFile                   % 'singleFile' || 'directory' %
-dataPath=data/combined.txt                  % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
-stopWordsPath=configuration/stopWords.txt   % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
-ngramMin=1                                  % minimum n-gram length %
-ngramMax=3                                  % maximum n-gram length %
+% minimum number of occurences until a word is regarded as relevant %
+minWordFrequency=30
+
+% number of elements processed at once %
+batchSize=1000
+
+% number of times a batch size is iterated %
+iterations=2
+
+% number of times the whole corpus is iterated %
+epochs=5
+
+% dimensions of the feature vector %
+layerSize=400
+
+% size of the context window %
+windowSize=6
+
+%  %
+negativeSample=10
+
+% seed for random init of word vectors %
+seed=63
+
+% true || false %
+useHierarchicSoftmax=true
+
+% true || false %
+allowParallelTokenization=false
+
+% 'singleFile' || 'directory' !!NOTE: THIS SETTING IS IGNORED IN CASE OF UPTRAINING [uptraining is always singleFile] %
+iteratorSource=directory
+
+% USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
+dataPath=data/liveData
+
+% USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
+stopWordsPath=configuration/stopWords.txt
+
+% STARTING MODEL PATH FOR UPTRAINING -- CAN BE IGNORED IF SINGLE-STAGE TRAINING IS EXECUTED %
+% USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
+startingModelPath=startingModel/test_start.cmf
+
+% true || false %
+configureUptraining=false
+
+% minimum n-gram length %
+ngramMin=1
+
+% maximum n-gram length %
+ngramMax=1
+
+% number of threads used for model fitting %
+workers=8
