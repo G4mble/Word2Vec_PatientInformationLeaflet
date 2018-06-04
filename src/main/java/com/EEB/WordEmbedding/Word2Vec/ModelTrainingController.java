@@ -1,7 +1,7 @@
-package com.EEB.PatientInformationLeaflet.Word2Vec;
+package com.EEB.WordEmbedding.Word2Vec;
 
-import com.EEB.PatientInformationLeaflet.Configuration.ProcessConfiguration;
-import com.EEB.PatientInformationLeaflet.Preprocessing.GermanTokenStemmingPreprocessor;
+import com.EEB.WordEmbedding.Configuration.ProcessConfiguration;
+import com.EEB.WordEmbedding.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.EEB.Tokenizer.GermanNGramTokenizerFactory;
 import org.apache.commons.io.FileUtils;
 import org.datavec.api.util.ClassPathResource;
@@ -62,6 +62,9 @@ public class ModelTrainingController
                     .windowSize(_processConfig.getWindowSize())
                     .iterate(_processConfig.getSentenceIterator())
 //                    .iterate(_processConfig.getDocumentIterator())
+                    .sampling(1e-5)
+                    .learningRate(0.025)
+                    .useAdaGrad(false)
                     .tokenizerFactory(_processConfig.getTokenizer())
                     .stopWords(_processConfig.getStopWords())
                     .build();

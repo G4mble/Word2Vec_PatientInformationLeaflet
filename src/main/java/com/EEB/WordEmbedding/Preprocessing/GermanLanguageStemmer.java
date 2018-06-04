@@ -1,4 +1,4 @@
-package com.EEB.PatientInformationLeaflet.Preprocessing;
+package com.EEB.WordEmbedding.Preprocessing;
 
 /*
     CODE SOURCE: https://github.com/LeonieWeissweiler/CISTEM/blob/master/Cistem.java

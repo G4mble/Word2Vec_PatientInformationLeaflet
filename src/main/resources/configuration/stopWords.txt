@@ -189,6 +189,11 @@ ersten
 erster
 erstes
 es
+et.al.
+et. al.
+et. al
+et al
+etal
 etwa
 etwas
 euch
@@ -325,10 +330,12 @@ keinem
 keinen
 keiner
 keines
+kg
 kleine
 kleinen
 kleiner
 kleines
+kof
 kommen
 kommt
 konnte
@@ -368,10 +375,17 @@ meiner
 meines
 mensch
 menschen
+mg
+mgkg
+mgmh
+mgml
 mich
 mir
 mit
 mittel
+ml
+mlkg
+mlmh
 mochte
 mochten
 morgen

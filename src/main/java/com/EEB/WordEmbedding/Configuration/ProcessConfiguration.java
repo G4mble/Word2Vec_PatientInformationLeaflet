@@ -1,6 +1,6 @@
-package com.EEB.PatientInformationLeaflet.Configuration;
+package com.EEB.WordEmbedding.Configuration;
 
-import com.EEB.PatientInformationLeaflet.Preprocessing.GermanTokenStemmingPreprocessor;
+import com.EEB.WordEmbedding.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.EEB.Tokenizer.GermanNGramTokenizerFactory;
 import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.text.documentiterator.DocumentIterator;

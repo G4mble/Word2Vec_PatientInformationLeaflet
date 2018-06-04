@@ -1,22 +1,22 @@
 % SINGLE LINE COMMENTS CAN BE ADDED ENCLOSED BY PERCENT SIGNS %
 
 % minimum number of occurences until a word is regarded as relevant %
-minWordFrequency=30
+minWordFrequency=20
 
 % number of elements processed at once %
-batchSize=1000
+batchSize=512
 
 % number of times a batch size is iterated %
-iterations=2
+iterations=1
 
 % number of times the whole corpus is iterated %
-epochs=5
+epochs=1
 
 % dimensions of the feature vector %
-layerSize=400
+layerSize=300
 
 % size of the context window %
-windowSize=6
+windowSize=5
 
 %  %
 negativeSample=10
@@ -25,7 +25,7 @@ negativeSample=10
 seed=63
 
 % true || false %
-useHierarchicSoftmax=true
+useHierarchicSoftmax=false
 
 % true || false %
 allowParallelTokenization=false
@@ -34,7 +34,7 @@ allowParallelTokenization=false
 iteratorSource=directory
 
 % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
-dataPath=data/liveData
+dataPath=data/liveData/preprocessed
 
 % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
 stopWordsPath=configuration/stopWords.txt
@@ -50,7 +50,7 @@ configureUptraining=false
 ngramMin=1
 
 % maximum n-gram length %
-ngramMax=1
+ngramMax=3
 
 % number of threads used for model fitting %
 workers=8

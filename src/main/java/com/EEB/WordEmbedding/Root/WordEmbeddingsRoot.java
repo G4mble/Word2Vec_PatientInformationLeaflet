@@ -1,7 +1,7 @@
-package com.EEB.PatientInformationLeaflet.Root;
+package com.EEB.WordEmbedding.Root;
 
-import com.EEB.PatientInformationLeaflet.Configuration.ProcessConfiguration;
-import com.EEB.PatientInformationLeaflet.Word2Vec.ModelTrainingController;
+import com.EEB.WordEmbedding.Configuration.ProcessConfiguration;
+import com.EEB.WordEmbedding.Word2Vec.ModelTrainingController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

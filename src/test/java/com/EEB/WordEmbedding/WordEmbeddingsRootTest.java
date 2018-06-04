@@ -1,4 +1,4 @@
-package com.EEB.PatientInformationLeaflet;
+package com.EEB.WordEmbedding;
 
 import static org.junit.Assert.assertTrue;
 
