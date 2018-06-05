@@ -14,14 +14,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 public class PostprocessingRoot
 {
     private static Logger _log = LoggerFactory.getLogger(PostprocessingRoot.class);
 
     //TODO change filename --> you can put your models in the "reources/postprocessing/model_input" folder
-    private static final String _filename = "postprocessing/model_input/model_output_2018-05-26_10-45-06.cmf";
+    private static final String _filename = "postprocessing/model_input/M_003_model_output_2018-05-31_02-18-43.cmf";
 
     public static void main(String[] args)
     {
@@ -42,34 +42,49 @@ public class PostprocessingRoot
         Word2Vec model = WordVectorSerializer.readWord2VecModel(modelFile);
         _log.info("Loading complete.");
 
-        double[][] similarityMatrix = computeSimilarityMatrix(model);
-        saveSimilarityMatrix(similarityMatrix);
+        Map<String, float[]> similarityMap = computeSimilarityMatrix(model);
+        saveSimilarityMatrix(similarityMap);
     }
 
-    private static void saveSimilarityMatrix(double[][] matrix)
+    private static String floatToOutputRepresentation(float[] input)
+    {
+        StringBuilder builder = new StringBuilder();
+        int itemCount = input.length;
+        int currentIndex = 1;
+        builder.append("{");
+        for(float current : input)
+        {
+            builder.append(current);
+            if(currentIndex < itemCount)
+                builder.append(";");
+            currentIndex++;
+        }
+        builder.append("}");
+        return builder.toString();
+    }
+
+    private static void saveSimilarityMatrix(Map<String, float[]> similarityMap)
     {
         _log.info("Composing output matrix...");
-        int d1 = matrix.length;
-        int d2 = matrix[0].length;
+        Set<String> keySet = similarityMap.keySet();
+        int dimensions = keySet.size();
+        int count = 1;
 
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < d1; i++)
+        for(String key : keySet)
         {
-            builder.append("{ ");
-            for(int j = 0; j < d2; j++)
-            {
-                builder.append(matrix[i][j]);
-                if(j < (d2 - 1))
-                    builder.append(", ");
-            }
-            builder.append(" }");
-            if(i < (d1 - 1))
+            builder.append("[");
+            builder.append(key).append(":");
+            builder.append(floatToOutputRepresentation(similarityMap.get(key)));
+            builder.append("]");
+            if(count < dimensions)
                 builder.append("\n");
+            count++;
         }
 
         try
         {
-            _log.info("Saving model...");
+            _log.info("Saving matrix...");
             DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
             FileUtils.write(new File("wordSimilarityMatrix_" + dateFormat.format(new Date()) + ".mat"), builder.toString());
         }
@@ -79,29 +94,31 @@ public class PostprocessingRoot
         }
     }
 
-    private static double[][] computeSimilarityMatrix(Word2Vec model)
+    private static Map<String, float[]> computeSimilarityMatrix(Word2Vec model)
     {
+        Map<String, float[]> similarityMap = new HashMap<>();
+
         _log.info("Computing similarity matrix...");
         VocabCache<VocabWord> vocab = model.vocab();
-        int numWords = vocab.numWords();
+//        int numWords = vocab.numWords();
+        int numWords = 200;
 
         _log.info("Number of words: " + numWords);
-
-        double[][] wordSimilarityMatrix = new double[numWords][numWords];
 
         for(int i = 0; i < numWords; i++)
         {
             _log.info("d1: " + i);
-            String firstWord = vocab.wordAtIndex(i);
+            String currentWord = vocab.wordAtIndex(i);
+            float[] currentSimilarityVector = new float[numWords];
             for(int j = 0; j < numWords; j++)
             {
                 if(i == j)
                     continue;
 
-                wordSimilarityMatrix[i][j] = model.similarity(firstWord, vocab.wordAtIndex(j));
+                currentSimilarityVector[j] = (float)model.similarity(currentWord, vocab.wordAtIndex(j));
             }
+            similarityMap.put(currentWord, currentSimilarityVector);
         }
-
-        return wordSimilarityMatrix;
+        return similarityMap;
     }
 }

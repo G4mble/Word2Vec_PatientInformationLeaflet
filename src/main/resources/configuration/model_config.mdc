@@ -34,7 +34,7 @@ allowParallelTokenization=false
 iteratorSource=directory
 
 % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
-dataPath=data/liveData/preprocessed
+dataPath=data/wikidump_combined/processing
 
 % USE PROJECT'S RESOURCES FOLDER AND ENTER RELATIVE PATH %
 stopWordsPath=configuration/stopWords.txt
@@ -50,7 +50,7 @@ configureUptraining=false
 ngramMin=1
 
 % maximum n-gram length %
-ngramMax=3
+ngramMax=1
 
 % number of threads used for model fitting %
 workers=8
