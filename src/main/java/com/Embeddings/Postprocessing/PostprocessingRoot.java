@@ -1,4 +1,4 @@
-package com.EEB.Postprocessing;
+package com.Embeddings.Postprocessing;
 
 import org.apache.commons.io.FileUtils;
 import org.datavec.api.util.ClassPathResource;
@@ -38,7 +38,7 @@ public class PostprocessingRoot
             _log.info("Terminating...");
             return;
         }
-        _log.info("Attempting to load Word2Vec Model from file: \"" + _filename + "\" ...");
+        _log.info("Attempting to load Training Model from file: \"" + _filename + "\" ...");
         Word2Vec model = WordVectorSerializer.readWord2VecModel(modelFile);
         _log.info("Loading complete.");
 
@@ -101,7 +101,7 @@ public class PostprocessingRoot
         _log.info("Computing similarity matrix...");
         VocabCache<VocabWord> vocab = model.vocab();
 //        int numWords = vocab.numWords();
-        int numWords = 200;
+        int numWords = 500;
 
         _log.info("Number of words: " + numWords);
 

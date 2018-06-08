@@ -1,4 +1,4 @@
-package com.EEB.Tokenizer;
+package com.Embeddings.Tokenizer;
 
 import org.deeplearning4j.text.tokenization.tokenizer.TokenPreProcess;
 import org.deeplearning4j.text.tokenization.tokenizer.Tokenizer;
@@ -10,7 +10,7 @@ import java.io.InputStream;
     THIS CLASS IS BASED ON:
         org.deeplearning4j.text.tokenization.tokenizerfactory.NGramTokenizerFactory
 
-    SEE "com.EEB.LICENSE.deeplearning4j_LICENSE" FOR FURTHER INFORMATION.
+    SEE "com._LICENSE.deeplearning4j_LICENSE" FOR FURTHER INFORMATION.
  */
 public class GermanNGramTokenizerFactory implements TokenizerFactory
 {

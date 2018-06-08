@@ -1,4 +1,4 @@
-package com.EEB.WordEmbedding.Preprocessing;
+package com.Embeddings.Preprocessing;
 
 /*
     CODE SOURCE: https://github.com/LeonieWeissweiler/CISTEM/blob/master/Cistem.java

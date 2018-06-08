@@ -1,4 +1,4 @@
-package com.EEB.Tokenizer;
+package com.Embeddings.Tokenizer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.deeplearning4j.text.tokenization.tokenizer.TokenPreProcess;
@@ -11,7 +11,7 @@ import java.util.List;
     THIS CLASS IS BASED ON:
         org.deeplearning4j.text.tokenization.tokenizerfactory.NGramTokenizer
 
-    SEE "com.EEB.LICENSE.deeplearning4j_LICENSE" FOR FURTHER INFORMATION.
+    SEE "com._LICENSE.deeplearning4j_LICENSE" FOR FURTHER INFORMATION.
  */
 public class GermanNGramTokenizer implements Tokenizer
 {

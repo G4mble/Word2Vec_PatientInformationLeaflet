@@ -1,7 +1,7 @@
-package com.EEB.WordEmbedding.Root;
+package com.Embeddings.Root;
 
-import com.EEB.WordEmbedding.Configuration.ProcessConfiguration;
-import com.EEB.WordEmbedding.Word2Vec.ModelTrainingController;
+import com.Embeddings.Configuration.ProcessConfiguration;
+import com.Embeddings.Training.ModelTrainingController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class WordEmbeddingsRoot
         trainingController.saveVocabularyToFile();
 //
 //        //TODO TS just some evaluation remove for final commit
-//        Word2Vec model = trainingController.getWord2VecModel();
+//        Training model = trainingController.getWord2VecModel();
 //        String ihkStem = GermanLanguageStemmer.stem("ihk");
 //        String handelskammerStem = GermanLanguageStemmer.stem("handelskammer");
 ////        String ihkStem = "ihk";

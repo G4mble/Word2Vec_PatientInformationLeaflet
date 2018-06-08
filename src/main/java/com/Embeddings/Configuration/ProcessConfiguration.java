@@ -1,7 +1,7 @@
-package com.EEB.WordEmbedding.Configuration;
+package com.Embeddings.Configuration;
 
-import com.EEB.WordEmbedding.Preprocessing.GermanTokenStemmingPreprocessor;
-import com.EEB.Tokenizer.GermanNGramTokenizerFactory;
+import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
+import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.text.documentiterator.DocumentIterator;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;

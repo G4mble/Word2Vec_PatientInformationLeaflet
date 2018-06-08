@@ -1,8 +1,8 @@
-package com.EEB.WordEmbedding.Word2Vec;
+package com.Embeddings.Training;
 
-import com.EEB.WordEmbedding.Configuration.ProcessConfiguration;
-import com.EEB.WordEmbedding.Preprocessing.GermanTokenStemmingPreprocessor;
-import com.EEB.Tokenizer.GermanNGramTokenizerFactory;
+import com.Embeddings.Configuration.ProcessConfiguration;
+import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
+import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.apache.commons.io.FileUtils;
 import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;

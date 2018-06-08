@@ -1,4 +1,4 @@
-package com.EEB.WordEmbedding.Preprocessing;
+package com.Embeddings.Preprocessing;
 
 import org.deeplearning4j.text.tokenization.tokenizer.TokenPreProcess;
 

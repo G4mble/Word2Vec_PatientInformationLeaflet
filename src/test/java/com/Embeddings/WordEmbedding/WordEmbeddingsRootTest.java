@@ -1,4 +1,4 @@
-package com.EEB.WordEmbedding;
+package com.Embeddings.WordEmbedding;
 
 import static org.junit.Assert.assertTrue;
 
