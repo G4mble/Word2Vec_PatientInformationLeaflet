@@ -2,6 +2,8 @@ package com.Utility.Converter;
 
 import org.apache.commons.io.FileUtils;
 import org.datavec.api.util.ClassPathResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,6 +14,8 @@ import java.util.stream.Stream;
 
 public class BinaryToPdfConverterRoot
 {
+    private static Logger _log = LoggerFactory.getLogger(BinaryToPdfConverterRoot.class);
+
     private static int count;
 
     public static void main(String[] args) throws Exception
@@ -37,7 +41,7 @@ public class BinaryToPdfConverterRoot
         }
         catch(Exception ex)
         {
-            System.out.println("log some error");
+            _log.error("Unexpected error in convertBinaryToPdf.", ex);
         }
     }
 

@@ -1,5 +1,8 @@
 package com.Utility.TextCleaning;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,10 +14,12 @@ import java.util.stream.Stream;
 
 public class CleanerRoot
 {
+    private static Logger _log = LoggerFactory.getLogger(CleanerRoot.class);
+
     private static final List<String> _abbreviations = new ArrayList<>();
     private static final List<String> _stopwords = new ArrayList<>();
     private static int _count = 1001;
-    private static long _numberOfDocs;
+    private static long _numberOfDocs; // usage of the variable depends on the currently selected method
     private static long _currentDocNumber;
 
     public static void main(String[] args)
@@ -23,6 +28,7 @@ public class CleanerRoot
         readStopwords();
 
         //TODO use this if "one med per line"
+//        _log.warn("PERFORMING OPERATION FOR: \"ONE MED PER LINE - SINGLE DOCUMENT\"");
 //        try
 //        {
 //            String saveDirectory = "G:\\__EEB\\liveData\\preprocessed\\";
@@ -48,12 +54,13 @@ public class CleanerRoot
 //            out.close();
 //            writer.close();
 //        }
-//        catch (IOException e)
+//        catch (Exception ex)
 //        {
-//            e.printStackTrace();
+//            _log.error("Unexpected error in main.", ex);
 //        }
 
         //TODO use this if "one sentence per line - one med per document"
+        _log.warn("PERFORMING OPERATION FOR: \"ONE SENTENCE PER LINE - ONE MED PER DOCUMENT\"");
         try
         {
             String saveDirectory = "G:\\__EEB\\liveData\\preprocessed\\";
@@ -63,9 +70,9 @@ public class CleanerRoot
             paths.filter(Files::isRegularFile).forEach(x -> preprocessOneSentecePerLineOneMedPerDocument(x, saveDirectory));
             paths.close();
         }
-        catch (IOException e)
+        catch (Exception ex)
         {
-            e.printStackTrace();
+            _log.error("Unexpected error in main.", ex);
         }
 
         //TODO TS this is wikipedia combine/string cleaning
@@ -82,7 +89,7 @@ public class CleanerRoot
 
     private static void preprocessOneSentecePerLineOneMedPerDocument(Path path, String saveDirectory)
     {
-        System.out.println("Processing " + path + " ...");
+        _log.info("Processing " + path + " ...");
         File inputFile;
         File outputFile;
         try
@@ -92,9 +99,10 @@ public class CleanerRoot
             outputFile.getParentFile().mkdirs();
             outputFile.createNewFile();
         }
-        catch (IOException e)
+        catch (Exception ex)
         {
-            System.out.println("ERROR --> terminating...");
+            _log.error("Unexpected error in preprocessOneSentecePerLineOneMedPerDocument.", ex);
+            _log.warn("TERMINATING...");
             return;
         }
 
@@ -153,7 +161,7 @@ public class CleanerRoot
         }
         catch(Exception ex)
         {
-            System.out.println("Some more exceptions. Over here!");
+            _log.error("Unexpected error in preprocessOneSentecePerLineOneMedPerDocument.", ex);
         }
     }
 
@@ -161,24 +169,26 @@ public class CleanerRoot
     {
         try
         {
+            _log.info("Loading stopwords from file...");
             List<String> lines = Files.readAllLines(Paths.get("G:\\IntelliJIdea\\Word2Vec_PatientInformationLeaflet\\src\\main\\resources\\configuration\\stopWords.txt"), StandardCharsets.UTF_8);
             _stopwords.addAll(lines);
         }
-        catch (IOException e)
+        catch (Exception ex)
         {
-            System.out.println("new error");
+            _log.error("Unexpected error in readStopwords.", ex);
         }
     }
     private static void readAbbreviations()
     {
         try
         {
+            _log.info("Loading abbreviations from file...");
             List<String> lines = Files.readAllLines(Paths.get("H:\\Daten\\Uni\\Master\\2.Semester\\EEB\\%Project\\005_German Abbreviations\\abbreviations.txt"), StandardCharsets.UTF_8);
             _abbreviations.addAll(lines);
         }
-        catch (IOException e)
+        catch (Exception ex)
         {
-            System.out.println("new error");
+            _log.error("Unexpected error in readAbbreviations.", ex);
         }
     }
     private static void processLine(String line, PrintWriter output)
@@ -228,15 +238,15 @@ public class CleanerRoot
     }
     private static void concatenateFile(Path path, PrintWriter output)
     {
-        System.out.println("Processing " + path + " ...");
+        _log.info("Processing " + path + " ...");
         try
         {
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
             lines.forEach(x -> processLine(x, output));
         }
-        catch (IOException e)
+        catch (Exception ex)
         {
-            e.printStackTrace();
+            _log.error("Unexpected error in concatenateFile.", ex);
         }
     }
     private static void processDirectory(Path directory)
@@ -255,14 +265,14 @@ public class CleanerRoot
             }
             _count++;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            System.out.println("ERROR!!");
+            _log.error("Unexpected error in processDirectory", ex);
         }
     }
     private static void modifyFile(Path path, BufferedWriter out)
     {
-        System.out.println("Processing " + path + " ...");
+        _log.info("Processing " + path + " ...");
         File currentFile = path.toFile();
         String currentLine;
         int lineCount = 1;
@@ -323,12 +333,12 @@ public class CleanerRoot
         }
         catch(Exception ex)
         {
-            System.out.println("Some more exceptions. Over here!");
+            _log.error("Unexpected error in modifyFile.", ex);
         }
     }
     private static void processFile(Path path)
     {
-        System.out.println("Processing " + path + " ...");
+        _log.info("Processing " + path + " ...");
         File currentFile = path.toFile();
         String currentLine;
         List<String> lines = new ArrayList<>();
@@ -360,7 +370,7 @@ public class CleanerRoot
         }
         catch (Exception ex)
         {
-            System.out.println("Another error");
+            _log.error("Unexpected error in processFile", ex);
         }
     }
 }
