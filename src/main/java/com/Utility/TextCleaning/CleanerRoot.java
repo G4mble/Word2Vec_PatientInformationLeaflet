@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 
 public class CleanerRoot
 {
-    private static List<String> _abbreviations = new ArrayList<>();
-    private static List<String> _stopwords = new ArrayList<>();
+    private static final List<String> _abbreviations = new ArrayList<>();
+    private static final List<String> _stopwords = new ArrayList<>();
     private static int _count = 1001;
     private static long _numberOfDocs;
     private static long _currentDocNumber;

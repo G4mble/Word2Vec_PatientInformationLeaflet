@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TSNERoot
+class TSNERoot
 {
 //    private static Logger log = LoggerFactory.getLogger(TSNERoot.class);
 //

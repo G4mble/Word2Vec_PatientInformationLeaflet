@@ -15,8 +15,8 @@ import java.io.InputStream;
 public class GermanNGramTokenizerFactory implements TokenizerFactory
 {
     private TokenPreProcess preProcess;
-    private Integer minN = 1;
-    private Integer maxN = 1;
+    private Integer minN;
+    private Integer maxN;
     private TokenizerFactory tokenizerFactory;
 
     public GermanNGramTokenizerFactory(TokenizerFactory tokenizerFactory, Integer minN, Integer maxN)

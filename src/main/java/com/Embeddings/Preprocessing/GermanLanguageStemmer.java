@@ -26,7 +26,7 @@ package com.Embeddings.Preprocessing;
     SOFTWARE.
  */
 
-public class GermanLanguageStemmer {
+class GermanLanguageStemmer {
 
     public static String stem(String word) {
         return stem(word, false);

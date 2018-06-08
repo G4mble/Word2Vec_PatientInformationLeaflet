@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Stream;
 
-public class ModelTrainingController
+class ModelTrainingController
 {
     private final ProcessConfiguration _processConfig;
     private final DateFormat _dateFormat;
@@ -31,7 +31,7 @@ public class ModelTrainingController
 
     private Word2Vec w2vModel;
 
-    public ModelTrainingController(ProcessConfiguration config, Logger log)
+    ModelTrainingController(ProcessConfiguration config, Logger log)
     {
         _dateFormat = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
         _processConfig = config;
@@ -40,12 +40,6 @@ public class ModelTrainingController
 
     private Word2Vec initializeModel()
     {
-//        WorkspaceConfiguration mmap = WorkspaceConfiguration.builder()
-//                                                            .initialSize(2147483647)
-//                                                            .policyLocation(LocationPolicy.MMAP)
-//                                                            .build();
-//        try(MemoryWorkspace ws = Nd4j.getWorkspaceManager().getAndActivateWorkspace(mmap, "M2"))
-//        {
             //TODO TS evaluate current && further parameters
             _log.info("Configuring input parameters...");
             return new Word2Vec.Builder()
@@ -61,17 +55,15 @@ public class ModelTrainingController
                     .seed(_processConfig.getSeed())
                     .windowSize(_processConfig.getWindowSize())
                     .iterate(_processConfig.getSentenceIterator())
-//                    .iterate(_processConfig.getDocumentIterator())
                     .sampling(1e-5)
                     .learningRate(0.025)
                     .useAdaGrad(false)
                     .tokenizerFactory(_processConfig.getTokenizer())
                     .stopWords(_processConfig.getStopWords())
                     .build();
-//        }
     }
 
-    public void trainModel()
+    void trainModel()
     {
         _log.info("Building model...");
         w2vModel = initializeModel();
@@ -103,7 +95,7 @@ public class ModelTrainingController
         }
     }
 
-    public void beginUptraining()
+    void beginUptraining()
     {
         try (Stream<Path> paths = Files.walk(Paths.get(new ClassPathResource(_processConfig.getDataPath()).getFile().getAbsolutePath())))
         {
@@ -117,7 +109,7 @@ public class ModelTrainingController
 
     }
 
-    public boolean saveModelToFile()
+    boolean saveModelToFile()
     {
         try
         {
@@ -132,7 +124,7 @@ public class ModelTrainingController
         return false;
     }
 
-    public boolean saveVocabularyToFile()
+    boolean saveVocabularyToFile()
     {
         try
         {
@@ -147,7 +139,7 @@ public class ModelTrainingController
         return false;
     }
 
-    public Word2Vec getWord2VecModel()
+    Word2Vec getWord2VecModel()
     {
         return this.w2vModel;
     }

@@ -13,7 +13,7 @@ import java.util.List;
 
     SEE "com._LICENSE.deeplearning4j_LICENSE" FOR FURTHER INFORMATION.
  */
-public class GermanNGramTokenizer implements Tokenizer
+class GermanNGramTokenizer implements Tokenizer
 {
     private List<String> tokens = new ArrayList();
     private int index;

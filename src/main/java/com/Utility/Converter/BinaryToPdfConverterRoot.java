@@ -19,7 +19,7 @@ public class BinaryToPdfConverterRoot
 //        preprocessBinaries();
         Stream<Path> paths = Files.walk(Paths.get(new ClassPathResource("binary/single").getFile().getAbsolutePath()));
         count = 1001;
-        paths.filter(Files::isRegularFile).forEach(x -> convertBinaryToPdf(x));
+        paths.filter(Files::isRegularFile).forEach(BinaryToPdfConverterRoot::convertBinaryToPdf);
     }
 
     private static void convertBinaryToPdf(Path path)

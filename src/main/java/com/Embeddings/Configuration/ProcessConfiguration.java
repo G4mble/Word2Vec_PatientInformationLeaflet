@@ -3,7 +3,6 @@ package com.Embeddings.Configuration;
 import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.datavec.api.util.ClassPathResource;
-import org.deeplearning4j.text.documentiterator.DocumentIterator;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.FileSentenceIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
@@ -47,7 +46,6 @@ public class ProcessConfiguration
     private List<String> stopWords;
 
     private SentenceIterator sentenceIterator;
-    private DocumentIterator documentIterator;
     private TokenizerFactory tokenizer;
 
     private String _iteratorSource;
@@ -166,7 +164,6 @@ public class ProcessConfiguration
                     break;
                 case "directory":
                     sentenceIterator = new FileSentenceIterator(dataset);
-//                    documentIterator = new FileDocumentIterator(dataset);
                     break;
                 default:
                     _log.error("Invalid iteratorSource-Type in config file!");
@@ -319,11 +316,6 @@ public class ProcessConfiguration
     public boolean getConfigureUptraining()
     {
         return configureUptraining;
-    }
-
-    public DocumentIterator getDocumentIterator()
-    {
-        return documentIterator;
     }
 
     public int getBatchSize()
