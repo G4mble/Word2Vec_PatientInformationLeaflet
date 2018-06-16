@@ -1,7 +1,8 @@
-package com.Embeddings.Configuration;
+package com.Configuration;
 
 import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
+import com.Utility.Helper.FileHelper;
 import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.FileSentenceIterator;
@@ -12,13 +13,16 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
-public class ProcessConfiguration
+public class ModelTrainingConfiguration extends ConfigurationBase
 {
 
     //<editor-fold desc="Private Fields">
@@ -50,26 +54,30 @@ public class ProcessConfiguration
 
     private String _iteratorSource;
     private String _stopWordFilePath;
-    private final String _configFilePath;
-    private final Logger _log;
 
     //</editor-fold>
 
     //<editor-fold desc="Constructors">
 
-    public ProcessConfiguration(String configFilePath, Logger log)
+    public ModelTrainingConfiguration(String localResourceConfigFilePath, Logger log)
     {
-        _configFilePath = configFilePath;
         _log = log;
 
-        initializeInternal();
+        try
+        {
+            initializeInternal(localResourceConfigFilePath);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     //</editor-fold>
 
     //<editor-fold desc="Private Methods">
 
-    private boolean processLineContent(String line)
+    protected boolean processLineContent(String line)
     {
         line = line.replaceAll("\\%.*?\\%", "");
         if (line.length() == 0)
@@ -181,44 +189,22 @@ public class ProcessConfiguration
         tokenizer.setTokenPreProcessor(new GermanTokenStemmingPreprocessor());
     }
 
-    private void loadConfigurationFromFile(String filePath)
-    {
-        try (Stream<String> lineStream = Files.lines(Paths.get(new ClassPathResource(filePath).getFile().getAbsolutePath())))
-        {
-            for (String line : (Iterable<String>) lineStream::iterator)
-            {
-                if (!processLineContent(line))
-                {
-                    _log.error("Invalid configuration detected.");
-                    return;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _log.error("Unexpected error in loadConfigurationFromFile", ex);
-        }
-    }
-
     private void loadStopWordsFromFile(String filePath)
     {
-        stopWords = new ArrayList<>();
-        try (Stream<String> lineStream = Files.lines(Paths.get(new ClassPathResource(filePath).getFile().getAbsolutePath())))
+        try
         {
-            for (String line : (Iterable<String>) lineStream::iterator)
-            {
-                stopWords.add(line);
-            }
+            stopWords = FileHelper.loadDocumentLinesToListFromLocalResource(filePath, StandardCharsets.UTF_8);
         }
         catch (Exception ex)
         {
-            _log.error("Unexpected error in loadStopWordsFromFile", ex);
+            ex.printStackTrace();
         }
     }
 
-    private void initializeInternal()
+    protected void initializeInternal(String configFilePath) throws IOException
     {
-        loadConfigurationFromFile(_configFilePath);
+        super.initializeInternal(configFilePath);
+
         loadStopWordsFromFile(_stopWordFilePath);
         if(!configureUptraining)
             initializeWord2VecComponents();

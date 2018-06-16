@@ -8,6 +8,7 @@ achten
 achter
 achtes
 ag
+al
 alle
 allein
 allem
@@ -56,8 +57,6 @@ bisher
 bist
 c
 d
-d.h
-d.h.
 da
 dabei
 dadurch
@@ -182,6 +181,7 @@ ende
 endlich
 entweder
 er
+ern
 ernst
 erst
 erste
@@ -189,10 +189,7 @@ ersten
 erster
 erstes
 es
-et.al.
-et. al.
-et. al
-et al
+et
 etal
 etwa
 etwas
@@ -607,8 +604,6 @@ wuerden
 x
 y
 z
-z.b
-z.b.
 zehn
 zehnte
 zehnten

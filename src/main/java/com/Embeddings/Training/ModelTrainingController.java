@@ -1,6 +1,6 @@
 package com.Embeddings.Training;
 
-import com.Embeddings.Configuration.ProcessConfiguration;
+import com.Configuration.ModelTrainingConfiguration;
 import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.apache.commons.io.FileUtils;
@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 
 class ModelTrainingController
 {
-    private final ProcessConfiguration _processConfig;
+    private final ModelTrainingConfiguration _processConfig;
     private final DateFormat _dateFormat;
     private final Logger _log;
 
     private Word2Vec w2vModel;
 
-    ModelTrainingController(ProcessConfiguration config, Logger log)
+    ModelTrainingController(ModelTrainingConfiguration config, Logger log)
     {
         _dateFormat = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
         _processConfig = config;
