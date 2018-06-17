@@ -19,4 +19,5 @@ public interface IPreprocessingUtility
     String replaceAllSentenceEndingWithDot(String input);
     String replaceHyphenAndApostropheWithWhitespace(String input);
     String replaceSpecialCharactersExceptDot(String input);
+    String replaceSpecialMedCharacters(String input);
 }

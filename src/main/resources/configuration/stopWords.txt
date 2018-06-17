@@ -383,6 +383,8 @@ mittel
 ml
 mlkg
 mlmh
+mm
+mmol
 mochte
 mochten
 morgen

@@ -1,6 +1,6 @@
 package com.Utility.TextPreprocessing.PreprocessingCore;
 
-import com.Configuration.PreprocessingConfiguration;
+import com.Configuration.CommonPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
 import com.Utility.Helper.FileHelper;
 import org.apache.commons.text.StringEscapeUtils;
@@ -23,7 +23,7 @@ public class CommonPreprocessingUtils implements IPreprocessingUtility
 
     //endregion
 
-    public CommonPreprocessingUtils(PreprocessingConfiguration config, Logger log)
+    public CommonPreprocessingUtils(CommonPreprocessingConfiguration config, Logger log)
     {
         _log = log;
         initializeInternal(config);
@@ -57,7 +57,7 @@ public class CommonPreprocessingUtils implements IPreprocessingUtility
         }
     }
 
-    private void initializeInternal(PreprocessingConfiguration config)
+    private void initializeInternal(CommonPreprocessingConfiguration config)
     {
         loadStopwords(config.getStopwordsFilePath());
         loadAbbreviations(config.getAbbreviationsFilePath());
@@ -171,6 +171,15 @@ public class CommonPreprocessingUtils implements IPreprocessingUtility
     public String replaceNonAsciiCharacters(String input)
     {
         return input.replaceAll("[^\\x00-\\x7F]+", " ").replaceAll("\\uFFFD", " ");
+    }
+
+    @Override
+    public String replaceSpecialMedCharacters(String input)
+    {
+        input = input.replaceAll("o25", "oe");
+        input = input.replaceAll("a25", "ae");
+        input = input.replaceAll("u25", "ue");
+        return input.replaceAll("s39", "ss");
     }
 
     //endregion

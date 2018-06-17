@@ -1,7 +1,8 @@
 package com.Utility.TextPreprocessing.DataSourcePreprocessor;
 
-import com.Configuration.PreprocessingConfiguration;
+import com.Configuration.CommonPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
+import com.Contracts.ITextPreprocessor;
 import com.Utility.Helper.CollectionHelper;
 import com.Utility.Helper.FileHelper;
 import com.Utility.Helper.ResourceProvider;
@@ -16,23 +17,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class WikipediaPreprocessor
+public class WikipediaPreprocessor implements ITextPreprocessor
 {
     //region Fields
 
     private long _linesSkipped;
 
-    private final IPreprocessingUtility _preprocessingUtils;
-    private final PreprocessingConfiguration _config;
+    private IPreprocessingUtility _preprocessingUtils;
+    private final CommonPreprocessingConfiguration _config;
     private final Logger _log;
 
     //endregion
 
     //region Constructors
 
-    public WikipediaPreprocessor(IPreprocessingUtility preprocessingUtils, PreprocessingConfiguration config, Logger log)
+    public WikipediaPreprocessor(CommonPreprocessingConfiguration config, Logger log)
     {
-        _preprocessingUtils = preprocessingUtils;
         _config = config;
         _log = log;
     }
@@ -41,8 +41,10 @@ public class WikipediaPreprocessor
 
     //region Public Methods
 
-    public void runProcess()
+    @Override
+    public void runProcess(IPreprocessingUtility preprocessingUtils)
     {
+        _preprocessingUtils = preprocessingUtils;
         try
         {
             File parentDir = ResourceProvider.getLocalResource(_config.getInputSourcePath()).toFile();

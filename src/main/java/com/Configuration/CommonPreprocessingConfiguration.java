@@ -2,7 +2,7 @@ package com.Configuration;
 
 import org.slf4j.Logger;
 
-public class PreprocessingConfiguration extends ConfigurationBase
+public class CommonPreprocessingConfiguration extends ConfigurationBase
 {
     //region Fields
 
@@ -22,17 +22,9 @@ public class PreprocessingConfiguration extends ConfigurationBase
 
     //region Constructors
 
-    public PreprocessingConfiguration(String localResourceConfigFilePath, Logger log)
+    public CommonPreprocessingConfiguration(Logger log)
     {
         _log = log;
-        try
-        {
-            initializeInternal(localResourceConfigFilePath);
-        }
-        catch (Exception ex)
-        {
-            _log.error("Error on initialize: PreprocessingConfiguration", ex);
-        }
     }
 
     //endregion
@@ -94,6 +86,22 @@ public class PreprocessingConfiguration extends ConfigurationBase
             _log.error("Unexpected error in processLineContent.", ex);
         }
         return false;
+    }
+
+    //endregion
+
+    //region Public Methods
+
+    public void initialize(String localResourcePath)
+    {
+        try
+        {
+            initializeInternal(localResourcePath);
+        }
+        catch (Exception ex)
+        {
+            _log.error("Error on initialize: CommonPreprocessingConfiguration.", ex);
+        }
     }
 
     //endregion
