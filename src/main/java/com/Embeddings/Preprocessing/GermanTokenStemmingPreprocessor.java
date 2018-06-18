@@ -12,10 +12,11 @@ public class GermanTokenStemmingPreprocessor implements TokenPreProcess
     @Override
     public String preProcess(String token)
     {
-        String output = _preprocessPattern.matcher(token.toLowerCase()).replaceAll("");
-        output = _nonAsciiPattern.matcher(output).replaceAll("").trim();
-        //TODO TS evaluate stemming
-        output = GermanLanguageStemmer.stem(output, true);
-        return output.length() > 2 ? output : "";
+        return token;
+//        String output = _preprocessPattern.matcher(token.toLowerCase()).replaceAll("");
+//        output = _nonAsciiPattern.matcher(output).replaceAll("").trim();
+//        //TODO TS evaluate stemming
+//        output = GermanLanguageStemmer.stem(output, true);
+//        return output.length() > 2 ? output : "";
     }
 }

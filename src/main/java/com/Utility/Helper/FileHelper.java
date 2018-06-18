@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,14 +32,33 @@ public class FileHelper
         return file;
     }
 
-    public static Set<String> loadDocumentLinesToSetFromLocalResource(String localResourcePath, Charset charset) throws IOException
+    public static List<String> loadDocumentLinesToList(Path path, Charset charset) throws IOException
     {
-        List<String> lines = Files.readAllLines(ResourceProvider.getLocalResource(localResourcePath), charset);
-        return new HashSet<>(lines);
+        return Files.readAllLines(path, charset);
+    }
+
+    public static List<String> loadDocumentLinesToList(String path, Charset charset) throws IOException
+    {
+        return loadDocumentLinesToList(Paths.get(path), charset);
     }
 
     public static List<String> loadDocumentLinesToListFromLocalResource(String localResourcePath, Charset charset) throws IOException
     {
-        return Files.readAllLines(ResourceProvider.getLocalResource(localResourcePath), charset);
+        return loadDocumentLinesToList(ResourceProvider.getLocalResource(localResourcePath), charset);
+    }
+
+    public static Set<String> loadDocumentLinesToSet(Path path, Charset charset) throws IOException
+    {
+        return new HashSet<>(Files.readAllLines(path, charset));
+    }
+
+    public static Set<String> loadDocumentLinesToSetFromLocalResource(String localResourcePath, Charset charset) throws IOException
+    {
+        return loadDocumentLinesToSet(ResourceProvider.getLocalResource(localResourcePath), charset);
+    }
+
+    public static Set<String> loadDocumentLinesToSet(String path, Charset charset) throws IOException
+    {
+        return loadDocumentLinesToSet(Paths.get(path), charset);
     }
 }

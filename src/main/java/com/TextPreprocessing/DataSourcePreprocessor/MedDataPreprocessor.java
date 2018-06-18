@@ -1,4 +1,4 @@
-package com.Utility.TextPreprocessing.DataSourcePreprocessor;
+package com.TextPreprocessing.DataSourcePreprocessor;
 
 import com.Configuration.MedDataPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
@@ -73,11 +73,12 @@ public class MedDataPreprocessor implements ITextPreprocessor
     private String ensureAbdamedFirstLine(String input)
     {
         String[] firstLineItems = input.split(":");
-        return firstLineItems[2];
+        return firstLineItems[0];
     }
 
     private String processAbdamedLine(String input, boolean forceKeepLine)
     {
+        input = _preprocessingUtils.repairMissingWhitespaces(input);
         input = _preprocessingUtils.transformToLowerCaseTrim(input);
         input = _preprocessingUtils.fixWhiteSpaces(input);
         input = _preprocessingUtils.replaceSpecialMedCharacters(input);
@@ -107,14 +108,14 @@ public class MedDataPreprocessor implements ITextPreprocessor
 
             if(!forceKeepLine && lineSplit.size() < 3)
                 return null;
-            input = CollectionHelper.collectionToString(lineSplit);
+            input = CollectionHelper.collectionToString(lineSplit, " ");
         }
-        return input.trim();
-    }
 
-    private String processAbdamedLine(String input)
-    {
-        return processAbdamedLine(input, false);
+        input = _preprocessingUtils.normalizeText(input);
+        input = _preprocessingUtils.replaceNonAsciiCharacters(input);
+        input = _preprocessingUtils.normalizeWhitespaces(input);
+
+        return input.trim();
     }
 
     private String processAbdamedFile(File file, Object lineSeparator)

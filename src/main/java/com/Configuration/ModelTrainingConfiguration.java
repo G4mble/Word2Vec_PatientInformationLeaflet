@@ -1,9 +1,6 @@
 package com.Configuration;
 
-import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
-import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
 import com.Utility.Helper.FileHelper;
-import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.FileSentenceIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
@@ -15,12 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 
 public class ModelTrainingConfiguration extends ConfigurationBase
 {
@@ -164,7 +156,7 @@ public class ModelTrainingConfiguration extends ConfigurationBase
         //initialize dataset and sentenceIterator
         try
         {
-            File dataset = new File(new ClassPathResource(dataPath).getFile().getAbsolutePath());
+            File dataset = new File(dataPath);
             switch (_iteratorSource)
             {
                 case "singleFile":
@@ -184,9 +176,10 @@ public class ModelTrainingConfiguration extends ConfigurationBase
         }
 
         //initialize tokenizer
-        TokenizerFactory defaultTokenizerFactory = new DefaultTokenizerFactory();
-        tokenizer = new GermanNGramTokenizerFactory(defaultTokenizerFactory, ngramMin, ngramMax);
-        tokenizer.setTokenPreProcessor(new GermanTokenStemmingPreprocessor());
+        tokenizer = new DefaultTokenizerFactory();
+//        TokenizerFactory defaultTokenizerFactory = new DefaultTokenizerFactory();
+//        tokenizer = new GermanNGramTokenizerFactory(defaultTokenizerFactory, ngramMin, ngramMax);
+//        tokenizer.setTokenPreProcessor(new GermanTokenStemmingPreprocessor());
     }
 
     private void loadStopWordsFromFile(String filePath)

@@ -1,4 +1,4 @@
-package com.Utility.TextPreprocessing.PreprocessingCore;
+package com.TextPreprocessing.PreprocessingCore;
 
 import com.Configuration.CommonPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
@@ -180,6 +180,12 @@ public class CommonPreprocessingUtils implements IPreprocessingUtility
         input = input.replaceAll("a25", "ae");
         input = input.replaceAll("u25", "ue");
         return input.replaceAll("s39", "ss");
+    }
+
+    @Override
+    public String repairMissingWhitespaces(String input)
+    {
+        return input.replaceAll("([A-Z])([A-Z])([a-z])|([a-z])([A-Z])", "$1$4 $2$3$5");
     }
 
     //endregion

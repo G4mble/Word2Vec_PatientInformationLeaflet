@@ -1,13 +1,14 @@
-package com.Utility.TextPreprocessing;
+package com.TextPreprocessing;
 
 import com.Configuration.CommonPreprocessingConfiguration;
 import com.Configuration.GlobalPreprocessingConfiguration;
 import com.Configuration.MedDataPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
 import com.Contracts.ITextPreprocessor;
-import com.Utility.TextPreprocessing.DataSourcePreprocessor.MedDataPreprocessor;
-import com.Utility.TextPreprocessing.DataSourcePreprocessor.WikipediaPreprocessor;
-import com.Utility.TextPreprocessing.PreprocessingCore.CommonPreprocessingUtils;
+import com.TextPreprocessing.DataSourcePreprocessor.MedDataPreprocessor;
+import com.TextPreprocessing.DataSourcePreprocessor.MedPDFPreprocessor;
+import com.TextPreprocessing.DataSourcePreprocessor.WikipediaPreprocessor;
+import com.TextPreprocessing.PreprocessingCore.CommonPreprocessingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,11 @@ public class TextPreprocessingRoot
             config = new MedDataPreprocessingConfiguration(globalConfig.getMedDataPreprocessingConfig(), _log);
             preprocessor = new MedDataPreprocessor((MedDataPreprocessingConfiguration)config, _log);
         }
+
+//        {
+//            config = new MedDataPreprocessingConfiguration(globalConfig.getMedDataPreprocessingConfig(), _log);
+//            preprocessor = new MedPDFPreprocessor((MedDataPreprocessingConfiguration)config, _log);
+//        }
 
         IPreprocessingUtility preprocessingUtils = new CommonPreprocessingUtils(config, _log);
         preprocessor.runProcess(preprocessingUtils);

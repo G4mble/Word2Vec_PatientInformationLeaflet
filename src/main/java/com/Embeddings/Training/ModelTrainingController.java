@@ -4,7 +4,6 @@ import com.Configuration.ModelTrainingConfiguration;
 import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
 import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.apache.commons.io.FileUtils;
-import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
@@ -40,7 +39,6 @@ class ModelTrainingController
 
     private Word2Vec initializeModel()
     {
-            //TODO TS evaluate current && further parameters
             _log.info("Configuring input parameters...");
             return new Word2Vec.Builder()
                     .workers(_processConfig.getWorkers())
@@ -58,8 +56,6 @@ class ModelTrainingController
                     .sampling(1e-5)
                     .learningRate(0.025)
                     .useAdaGrad(false)
-                    .tokenizerFactory(_processConfig.getTokenizer())
-                    .stopWords(_processConfig.getStopWords())
                     .build();
     }
 
@@ -97,9 +93,9 @@ class ModelTrainingController
 
     void beginUptraining()
     {
-        try (Stream<Path> paths = Files.walk(Paths.get(new ClassPathResource(_processConfig.getDataPath()).getFile().getAbsolutePath())))
+        try (Stream<Path> paths = Files.walk(Paths.get(_processConfig.getDataPath())))
         {
-            w2vModel = WordVectorSerializer.readWord2VecModel(new ClassPathResource(_processConfig.getStartingModelPath()).getFile().getAbsolutePath());
+            w2vModel = WordVectorSerializer.readWord2VecModel(_processConfig.getStartingModelPath());
             paths.filter(Files::isRegularFile).forEach(this::uptrainModel);
         }
         catch (Exception ex)

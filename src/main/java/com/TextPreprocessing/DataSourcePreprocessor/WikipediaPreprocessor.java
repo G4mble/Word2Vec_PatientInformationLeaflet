@@ -1,4 +1,4 @@
-package com.Utility.TextPreprocessing.DataSourcePreprocessor;
+package com.TextPreprocessing.DataSourcePreprocessor;
 
 import com.Configuration.CommonPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
@@ -100,7 +100,7 @@ public class WikipediaPreprocessor implements ITextPreprocessor
             if(_config.getRemoveStopwords())
                 lineSplit = _preprocessingUtils.removeStopwords(lineSplit);
 
-            input = CollectionHelper.collectionToString(lineSplit);
+            input = CollectionHelper.collectionToString(lineSplit, " ");
         }
 
         input = _preprocessingUtils.replaceAllSentenceEndingWithDot(input);

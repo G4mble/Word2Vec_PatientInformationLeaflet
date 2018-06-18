@@ -7,6 +7,7 @@ public class GlobalPreprocessingConfiguration extends ConfigurationBase
     //region Fields
 
     private boolean runWikipediaPreprocessing;
+    private boolean runMedPDFPreprocessing;
     private String medDataPreprocessingConfig;
     private String wikipediaPreprocessingConfig;
 
@@ -58,6 +59,9 @@ public class GlobalPreprocessingConfiguration extends ConfigurationBase
                 case "medDataPreprocessingConfig":
                     medDataPreprocessingConfig = rightHandSide;
                     break;
+                case "runMedPDFPreprocessing":
+                    runMedPDFPreprocessing = Boolean.parseBoolean(rightHandSide);
+                    break;
                 default:
                     return false;
             }
@@ -87,6 +91,11 @@ public class GlobalPreprocessingConfiguration extends ConfigurationBase
     public String getWikipediaPreprocessingConfig()
     {
         return wikipediaPreprocessingConfig;
+    }
+
+    public boolean getRunMedPDFPreprocessing()
+    {
+        return runMedPDFPreprocessing;
     }
 
     //endregion

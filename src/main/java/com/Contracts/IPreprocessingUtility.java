@@ -20,4 +20,5 @@ public interface IPreprocessingUtility
     String replaceHyphenAndApostropheWithWhitespace(String input);
     String replaceSpecialCharactersExceptDot(String input);
     String replaceSpecialMedCharacters(String input);
+    String repairMissingWhitespaces(String input);
 }
