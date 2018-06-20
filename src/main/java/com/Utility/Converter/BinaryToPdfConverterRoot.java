@@ -21,7 +21,7 @@ public class BinaryToPdfConverterRoot
     public static void main(String[] args) throws Exception
     {
 //        preprocessBinaries();
-        Stream<Path> paths = Files.walk(Paths.get(new ClassPathResource("binary/single").getFile().getAbsolutePath()));
+        Stream<Path> paths = Files.walk(Paths.get("H:\\Daten\\Uni\\Master\\2.Semester\\EEB\\%Project\\_FULL_DATA_BACKUP\\MED_PDF\\binary\\single"));
         count = 1001;
         paths.filter(Files::isRegularFile).forEach(BinaryToPdfConverterRoot::convertBinaryToPdf);
     }
@@ -33,7 +33,8 @@ public class BinaryToPdfConverterRoot
         {
             byte[] fileContent = new byte[(int)file.length()];
             fis.read(fileContent);
-            byte[] outputBytes = Base64.getDecoder().decode(fileContent);
+            byte[] outputBytes = new byte[0];
+            outputBytes = Base64.getDecoder().decode(fileContent);
             DataOutputStream os = new DataOutputStream(new FileOutputStream("medData_" + count + ".pdf"));
             os.write(outputBytes);
             os.close();
@@ -47,7 +48,7 @@ public class BinaryToPdfConverterRoot
 
     private static void preprocessBinaries() throws Exception
     {
-        File file = new File(new ClassPathResource("binary/binaryData.dat").getFile().getAbsolutePath());
+        File file = new File("H:\\Daten\\Uni\\Master\\2.Semester\\EEB\\%Project\\_FULL_DATA_BACKUP\\MED_PDF\\binary\\raw\\binaryData.dat");
         try (FileReader reader = new FileReader(file);
              BufferedReader br = new BufferedReader(reader))
         {
