@@ -1,4 +1,4 @@
-package com.Embeddings.Training;
+package com.WordEmbeddings.Training;
 
 import com.Configuration.ModelTrainingConfiguration;
 
@@ -9,7 +9,7 @@ class WordEmbeddingsTrainingRoot
 {
     private static final String MODEL_TRAINING_CONFIG_PATH = "configuration/model_config.cfg";
 
-    private static Logger _log = LoggerFactory.getLogger(WordEmbeddingsTrainingRoot.class);
+    private static final Logger _log = LoggerFactory.getLogger(WordEmbeddingsTrainingRoot.class);
 
     public static void main( String[] args )
     {

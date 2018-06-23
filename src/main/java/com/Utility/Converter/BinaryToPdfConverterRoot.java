@@ -1,7 +1,6 @@
 package com.Utility.Converter;
 
 import org.apache.commons.io.FileUtils;
-import org.datavec.api.util.ClassPathResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,7 @@ import java.util.stream.Stream;
 
 public class BinaryToPdfConverterRoot
 {
-    private static Logger _log = LoggerFactory.getLogger(BinaryToPdfConverterRoot.class);
+    private static final Logger _log = LoggerFactory.getLogger(BinaryToPdfConverterRoot.class);
 
     private static int count;
 
@@ -33,8 +32,7 @@ public class BinaryToPdfConverterRoot
         {
             byte[] fileContent = new byte[(int)file.length()];
             fis.read(fileContent);
-            byte[] outputBytes = new byte[0];
-            outputBytes = Base64.getDecoder().decode(fileContent);
+            byte[] outputBytes = Base64.getDecoder().decode(fileContent);
             DataOutputStream os = new DataOutputStream(new FileOutputStream("medData_" + count + ".pdf"));
             os.write(outputBytes);
             os.close();

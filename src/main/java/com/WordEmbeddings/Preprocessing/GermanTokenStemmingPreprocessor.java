@@ -1,4 +1,4 @@
-package com.Embeddings.Preprocessing;
+package com.WordEmbeddings.Preprocessing;
 
 import org.deeplearning4j.text.tokenization.tokenizer.TokenPreProcess;
 
@@ -12,7 +12,7 @@ public class GermanTokenStemmingPreprocessor implements TokenPreProcess
     @Override
     public String preProcess(String token)
     {
-        return token;
+        return GermanLanguageStemmer.stem(token);
 //        String output = _preprocessPattern.matcher(token.toLowerCase()).replaceAll("");
 //        output = _nonAsciiPattern.matcher(output).replaceAll("").trim();
 //        //TODO TS evaluate stemming

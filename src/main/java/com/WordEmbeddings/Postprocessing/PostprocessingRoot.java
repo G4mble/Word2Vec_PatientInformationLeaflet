@@ -1,4 +1,4 @@
-package com.Embeddings.Postprocessing;
+package com.WordEmbeddings.Postprocessing;
 
 import org.apache.commons.io.FileUtils;
 import org.datavec.api.util.ClassPathResource;
@@ -18,7 +18,7 @@ import java.util.*;
 
 public class PostprocessingRoot
 {
-    private static Logger _log = LoggerFactory.getLogger(PostprocessingRoot.class);
+    private static final Logger _log = LoggerFactory.getLogger(PostprocessingRoot.class);
 
     //TODO change filename --> you can put your models in the "reources/postprocessing/model_input" folder
     private static final String _filename = "postprocessing/model_input/M_003_model_output_2018-05-31_02-18-43.cmf";

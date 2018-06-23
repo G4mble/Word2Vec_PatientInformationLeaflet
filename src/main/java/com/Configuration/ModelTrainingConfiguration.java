@@ -1,6 +1,8 @@
 package com.Configuration;
 
 import com.Utility.Helper.FileHelper;
+import com.WordEmbeddings.Preprocessing.GermanTokenStemmingPreprocessor;
+import com.WordEmbeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.FileSentenceIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
@@ -35,6 +37,8 @@ public class ModelTrainingConfiguration extends ConfigurationBase
     private boolean useHierarchicSoftmax;
     private boolean allowParallelTokenization;
     private boolean configureUptraining;
+    private boolean useNGrams;
+    private boolean useStemming;
 
     private String dataPath;
     private String startingModelPath;
@@ -46,6 +50,8 @@ public class ModelTrainingConfiguration extends ConfigurationBase
 
     private String _iteratorSource;
     private String _stopWordFilePath;
+
+    private float learningRate;
 
     //</editor-fold>
 
@@ -139,6 +145,15 @@ public class ModelTrainingConfiguration extends ConfigurationBase
                 case "batchSize":
                     batchSize = Integer.parseInt(rightHandSide);
                     break;
+                case "useNGrams":
+                    useNGrams = Boolean.parseBoolean(rightHandSide);
+                    break;
+                case "useStemming":
+                    useStemming = Boolean.parseBoolean(rightHandSide);
+                    break;
+                case "learningRate":
+                    learningRate = Float.parseFloat(rightHandSide);
+                    break;
                 default:
                     return false;
             }
@@ -176,10 +191,14 @@ public class ModelTrainingConfiguration extends ConfigurationBase
         }
 
         //initialize tokenizer
-        tokenizer = new DefaultTokenizerFactory();
-//        TokenizerFactory defaultTokenizerFactory = new DefaultTokenizerFactory();
-//        tokenizer = new GermanNGramTokenizerFactory(defaultTokenizerFactory, ngramMin, ngramMax);
-//        tokenizer.setTokenPreProcessor(new GermanTokenStemmingPreprocessor());
+        TokenizerFactory defaultTokenizerFactory = new DefaultTokenizerFactory();
+        if(useNGrams)
+            tokenizer = new GermanNGramTokenizerFactory(defaultTokenizerFactory, ngramMin, ngramMax);
+        else
+            tokenizer = defaultTokenizerFactory;
+
+        if(useStemming)
+            tokenizer.setTokenPreProcessor(new GermanTokenStemmingPreprocessor());
     }
 
     private void loadStopWordsFromFile(String filePath)
@@ -300,6 +319,21 @@ public class ModelTrainingConfiguration extends ConfigurationBase
     public int getBatchSize()
     {
         return batchSize;
+    }
+
+    public boolean getUseNGrams()
+    {
+        return useNGrams;
+    }
+
+    public boolean getUseStemming()
+    {
+        return useStemming;
+    }
+
+    public float getLearningRate()
+    {
+        return learningRate;
     }
 
     //</editor-fold>

@@ -6,7 +6,6 @@ import com.Configuration.MedDataPreprocessingConfiguration;
 import com.Contracts.IPreprocessingUtility;
 import com.Contracts.ITextPreprocessor;
 import com.TextPreprocessing.DataSourcePreprocessor.MedDataPreprocessor;
-import com.TextPreprocessing.DataSourcePreprocessor.MedPDFPreprocessor;
 import com.TextPreprocessing.DataSourcePreprocessor.WikipediaPreprocessor;
 import com.TextPreprocessing.PreprocessingCore.CommonPreprocessingUtils;
 import org.slf4j.Logger;
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class TextPreprocessingRoot
 {
-    private static Logger _log = LoggerFactory.getLogger(TextPreprocessingRoot.class);
+    private static final Logger _log = LoggerFactory.getLogger(TextPreprocessingRoot.class);
 
     private static final String GLOBAL_PREPROCESSING_CONFIG_PATH = "configuration/globalPreprocessing_config.cfg";
 

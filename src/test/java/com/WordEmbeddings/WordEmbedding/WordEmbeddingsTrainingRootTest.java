@@ -1,4 +1,4 @@
-package com.Embeddings.WordEmbedding;
+package com.WordEmbeddings.WordEmbedding;
 
 import static org.junit.Assert.assertTrue;
 

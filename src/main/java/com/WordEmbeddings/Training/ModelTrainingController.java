@@ -1,8 +1,8 @@
-package com.Embeddings.Training;
+package com.WordEmbeddings.Training;
 
 import com.Configuration.ModelTrainingConfiguration;
-import com.Embeddings.Preprocessing.GermanTokenStemmingPreprocessor;
-import com.Embeddings.Tokenizer.GermanNGramTokenizerFactory;
+import com.WordEmbeddings.Preprocessing.GermanTokenStemmingPreprocessor;
+import com.WordEmbeddings.Tokenizer.GermanNGramTokenizerFactory;
 import org.apache.commons.io.FileUtils;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
@@ -53,8 +53,9 @@ class ModelTrainingController
                     .seed(_processConfig.getSeed())
                     .windowSize(_processConfig.getWindowSize())
                     .iterate(_processConfig.getSentenceIterator())
+                    .tokenizerFactory(_processConfig.getTokenizer())
                     .sampling(1e-5)
-                    .learningRate(0.025)
+                    .learningRate(_processConfig.getLearningRate())
                     .useAdaGrad(false)
                     .build();
     }
