@@ -95,6 +95,8 @@ public class MedDataPreprocessor implements ITextPreprocessor
         input = _preprocessingUtils.replaceUmlauts(input);
         input = _preprocessingUtils.replaceDates(input);
         input = _preprocessingUtils.replaceSpecialCharacters(input);
+        input = _preprocessingUtils.normalizeText(input);
+        input = _preprocessingUtils.replaceNonAsciiCharacters(input);
 
         if (_config.getPerformPerWordProcesses())
         {
@@ -111,8 +113,6 @@ public class MedDataPreprocessor implements ITextPreprocessor
             input = CollectionHelper.collectionToString(lineSplit, " ");
         }
 
-        input = _preprocessingUtils.normalizeText(input);
-        input = _preprocessingUtils.replaceNonAsciiCharacters(input);
         input = _preprocessingUtils.normalizeWhitespaces(input);
 
         return input.trim();

@@ -48,6 +48,8 @@ public class NonPrescriptionMedExtractorRoot
         input = _preprocessingUtils.replaceUmlauts(input);
         input = _preprocessingUtils.replaceDates(input);
         input = _preprocessingUtils.replaceSpecialCharacters(input);
+        input = _preprocessingUtils.normalizeText(input);
+        input = _preprocessingUtils.replaceNonAsciiCharacters(input);
 
         try
         {
@@ -56,7 +58,16 @@ public class NonPrescriptionMedExtractorRoot
             //TODO TS evalutate
             if(inputSplit.size() == 0)
                 return null;
-            input = inputSplit.get(0);
+            int index = 0;
+            int max = inputSplit.size();
+            input = "";
+            while(input.isEmpty() && index < max)
+            {
+                input = inputSplit.get(index);
+                index++;
+            }
+            if(input.isEmpty())
+                return null;
             //TODO TS
 //            input = CollectionHelper.collectionToString(inputSplit, " ");
         }
@@ -65,8 +76,6 @@ public class NonPrescriptionMedExtractorRoot
             e.printStackTrace();
         }
 
-        input = _preprocessingUtils.normalizeText(input);
-        input = _preprocessingUtils.replaceNonAsciiCharacters(input);
         input = _preprocessingUtils.normalizeWhitespaces(input);
 
         return input.trim();

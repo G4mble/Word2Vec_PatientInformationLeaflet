@@ -1,10 +1,13 @@
 package com.WordEmbeddings.ModelAccess;
 
 import com.Configuration.ModelAccessConfiguration;
+import com.Utility.Helper.CollectionHelper;
 import com.WordEmbeddings.ModelAccess.Provider.ModelAccessProvider;
 import com.ea.async.instrumentation.InitializeAsync;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 
 import static com.ea.async.Async.await;
 
@@ -34,5 +37,21 @@ class ModelAccessRoot
             return;
         }
         //TODO do some stuff with modelAccessProvider here
+        Collection<String> list = modelAccessProvider.getSimilarMedicaments("aspirin", 20);
+        if(list != null)
+            System.out.println(CollectionHelper.collectionToString(list, " "));
+        list = modelAccessProvider.getSimilarMedicaments("ibuprofen", 20);
+        if(list != null)
+            System.out.println(CollectionHelper.collectionToString(list, " "));
+
+//        list = modelAccessProvider.getSimilarMedicaments("ass", 20);
+//        if(list != null)
+//            System.out.println(CollectionHelper.collectionToString(list, " "));
+//        list = modelAccessProvider.getSimilarMedicaments("hustensaft", 20);
+//        if(list != null)
+//            System.out.println(CollectionHelper.collectionToString(list, " "));
+//        list = modelAccessProvider.getSimilarMedicaments("kopfschmerzen", 20);
+//        if(list != null)
+//            System.out.println(CollectionHelper.collectionToString(list, " "));
     }
 }

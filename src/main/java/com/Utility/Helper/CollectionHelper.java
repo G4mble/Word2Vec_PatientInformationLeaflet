@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class CollectionHelper
 {
-    public static String collectionToString(Collection<String> input, Object elementSeparator)
+    public static String collectionToString(Collection<String> input, Object elementSeparator) throws NullPointerException
     {
         StringBuilder builder = new StringBuilder();
         for(String element:input)
