@@ -4,8 +4,11 @@ import com.Configuration.ModelAccessConfiguration;
 import com.Contracts.IModelAccessor;
 import com.WordEmbeddings.Postprocessing.PostprocessingUtils;
 import javafx.util.Pair;
+import org.deeplearning4j.models.embeddings.WeightLookupTable;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
+import org.deeplearning4j.models.word2vec.VocabWord;
 import org.deeplearning4j.models.word2vec.Word2Vec;
+import org.deeplearning4j.models.word2vec.wordstore.VocabCache;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -33,6 +36,18 @@ public class Word2VecModelAccessor implements IModelAccessor
     }
 
     //endregion
+
+    private void test(Set<String> filterTokens)
+    {
+        WeightLookupTable<VocabWord> inputLookupTable = _model.getLookupTable();
+        VocabCache<VocabWord> vocab = _model.getVocab();
+        Set<String> vocabWords = new HashSet<>();
+        for(int i = 0; i < vocab.numWords(); i++)
+        {
+            vocabWords.add(vocab.wordAtIndex(i));
+        }
+        vocabWords.retainAll(filterTokens);
+    }
 
     /**
      * As it turns out, this is exactly what the W2V library does...

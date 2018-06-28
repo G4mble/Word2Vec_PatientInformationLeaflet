@@ -115,7 +115,7 @@ public class ModelAccessProvider
             if(!hasWord(currentWord))
                 continue;
 
-            w2vSimList = findSemanticallySimilarWordsTo(word, maxNumberOfOutputWords);
+            w2vSimList = findSemanticallySimilarWordsTo(currentWord, maxNumberOfOutputWords);
             w2vSimList.retainAll(_nonPrescriptionMeds);
         }while(w2vSimList.size() == 0 && index < maxIndex);
 
