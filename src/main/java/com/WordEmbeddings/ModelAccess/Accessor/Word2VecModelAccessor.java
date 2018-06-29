@@ -139,5 +139,18 @@ public class Word2VecModelAccessor implements IModelAccessor
         return _model.wordsNearest(positiveWords, negativeWords, getTopXWords);
     }
 
+    /**
+     * Calculates the mean vector from the words in the input list.
+     * Searches the vocabulary for words that appear to have a similiar meaning as the mean-word.
+     * @param words A Collection of words of which the mean is to used as an input for a 'findSemanticallySimilarWordsTo' query.
+     * @param getTopXWords The amount of words that should be returned at most.
+     * @return A Collection of words similar to the mean-word of the input words.
+     */
+    @Override
+    public Collection<String> findSemanticallySimilarWordsToUsingVectorMean(Collection<String> words, int getTopXWords)
+    {
+        return _model.wordsNearest(_model.getWordVectorsMean(words), getTopXWords);
+    }
+
     //endregion
 }
