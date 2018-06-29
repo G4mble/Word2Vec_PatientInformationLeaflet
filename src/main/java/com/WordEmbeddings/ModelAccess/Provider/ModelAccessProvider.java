@@ -74,6 +74,11 @@ public class ModelAccessProvider
         return _modelAccessor.findSemanticallySimilarWordsTo(positiveWords, negativeWords, numberOfCloseWords);
     }
 
+    public Collection<String> findSemanticallySimilarWordsToUsingVectorMean(Collection<String> words, int getTopXWords)
+    {
+        return _modelAccessor.findSemanticallySimilarWordsToUsingVectorMean(words, getTopXWords);
+    }
+
     //endregion
 
     //region Med-Specific Methods
