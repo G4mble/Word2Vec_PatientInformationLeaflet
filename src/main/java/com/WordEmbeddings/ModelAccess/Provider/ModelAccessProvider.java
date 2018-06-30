@@ -51,32 +51,63 @@ public class ModelAccessProvider
 
     public boolean hasWord(String word)
     {
+        word = PreprocessingHelper.preprocessSingleElement(word, _preprocessingUtils);
         return _modelAccessor.hasWord(word);
     }
 
+    /***
+     * @return if one of the words does not exist: 0.0d --> their respective cosine similarity otherwise
+     */
     public double calculateSimilarity(String firstWord, String secondWord)
     {
-        return _modelAccessor.calculateSimilarity(firstWord, secondWord);
+        firstWord = PreprocessingHelper.preprocessSingleElement(firstWord, _preprocessingUtils);
+        secondWord = PreprocessingHelper.preprocessSingleElement(secondWord, _preprocessingUtils);
+        if(!hasWordCore(firstWord) || !hasWordCore(secondWord))
+            return 0.0d;
+        return calculateSimilarityCore(firstWord, secondWord);
     }
 
     public List<String> findOrthographicallyCloseWordsTo(String word, double accuracy)
     {
-        return _modelAccessor.findOrthographicallyCloseWordsTo(word, accuracy);
+        word = PreprocessingHelper.preprocessSingleElement(word, _preprocessingUtils);
+        if(!hasWordCore(word))
+            return null;
+        return findOrthographicallyCloseWordsCore(word, accuracy);
     }
 
     public Collection<String> findSemanticallySimilarWordsTo(String word, int numberOfCloseWords)
     {
-        return _modelAccessor.findSemanticallySimilarWordsTo(word, numberOfCloseWords);
+        word = PreprocessingHelper.preprocessSingleElement(word, _preprocessingUtils);
+        if(!hasWordCore(word))
+            return null;
+        return findSemanticallySimilarWordsCore(word, numberOfCloseWords);
     }
 
     public Collection<String> findSemanticallySimilarWordsTo(Collection<String> positiveWords, Collection<String> negativeWords, int numberOfCloseWords)
     {
-        return _modelAccessor.findSemanticallySimilarWordsTo(positiveWords, negativeWords, numberOfCloseWords);
+        positiveWords = PreprocessingHelper.preprocessElementsFromCollection(positiveWords, _preprocessingUtils);
+        if(positiveWords == null) return null;
+        for(String word:positiveWords)
+            if(!hasWordCore(word))
+                return null;
+
+        negativeWords = PreprocessingHelper.preprocessElementsFromCollection(negativeWords, _preprocessingUtils);
+        if(negativeWords == null) return null;
+        for(String word:negativeWords)
+            if(!hasWordCore(word))
+                return null;
+
+        return findSemanticallySimilarWordsCore(positiveWords, negativeWords, numberOfCloseWords);
     }
 
-    public Collection<String> findSemanticallySimilarWordsToUsingVectorMean(Collection<String> words, int getTopXWords)
+    public Collection<String> findSemanticallySimilarWordsUsingVectorMean(Collection<String> words, int getTopXWords)
     {
-        return _modelAccessor.findSemanticallySimilarWordsToUsingVectorMean(words, getTopXWords);
+        words = PreprocessingHelper.preprocessElementsFromCollection(words, _preprocessingUtils);
+        if(words == null) return null;
+        for(String word:words)
+            if(!hasWordCore(word))
+                return null;
+        return findSemanticallySimilarWordsUsingVectorMeanCore(words, getTopXWords);
     }
 
     //endregion
@@ -94,7 +125,7 @@ public class ModelAccessProvider
     public Collection<String> getSimilarMedicaments(String word, int maxNumberOfOutputWords)
     {
         //preprocess "word" --> get list of components
-        List<String> inputSplit = PreprocessingHelper.preprocessElementToList(word, _preprocessingUtils);
+        List<String> inputSplit = PreprocessingHelper.preprocessElementFromStringToList(word, _preprocessingUtils);
         if(inputSplit == null)
             return null;
         List<String> duplicateSplit = new ArrayList<>(inputSplit);
@@ -117,10 +148,10 @@ public class ModelAccessProvider
         {
             String currentWord = duplicateSplit.get(index);
             index++;
-            if(!hasWord(currentWord))
+            if(!hasWordCore(currentWord))
                 continue;
 
-            w2vSimList = findSemanticallySimilarWordsTo(currentWord, maxNumberOfOutputWords);
+            w2vSimList = findSemanticallySimilarWordsCore(currentWord, maxNumberOfOutputWords);
             w2vSimList.retainAll(_nonPrescriptionMeds);
         }while(w2vSimList.size() == 0 && index < maxIndex);
 
@@ -131,6 +162,40 @@ public class ModelAccessProvider
     }
 
     //endregion
+
+    //endregion
+
+    //region Private Methods
+
+    private Collection<String> findSemanticallySimilarWordsUsingVectorMeanCore(Collection<String> words, int getTopXWords)
+    {
+        return _modelAccessor.findSemanticallySimilarWordsToUsingVectorMean(words, getTopXWords);
+    }
+
+    private Collection<String> findSemanticallySimilarWordsCore(Collection<String> positiveWords, Collection<String> negativeWords, int numberOfCloseWords)
+    {
+        return _modelAccessor.findSemanticallySimilarWordsTo(positiveWords, negativeWords, numberOfCloseWords);
+    }
+
+    private List<String> findOrthographicallyCloseWordsCore(String word, double accuracy)
+    {
+        return _modelAccessor.findOrthographicallyCloseWordsTo(word, accuracy);
+    }
+
+    private boolean hasWordCore(String word)
+    {
+        return _modelAccessor.hasWord(word);
+    }
+
+    private double calculateSimilarityCore(String firstWord, String secondWord)
+    {
+        return _modelAccessor.calculateSimilarity(firstWord, secondWord);
+    }
+
+    private Collection<String> findSemanticallySimilarWordsCore(String word, int numberOfCloseWords)
+    {
+        return _modelAccessor.findSemanticallySimilarWordsTo(word, numberOfCloseWords);
+    }
 
     //endregion
 

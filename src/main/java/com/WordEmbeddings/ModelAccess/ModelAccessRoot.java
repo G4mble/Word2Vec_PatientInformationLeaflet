@@ -7,7 +7,9 @@ import com.ea.async.instrumentation.InitializeAsync;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import static com.ea.async.Async.await;
 
@@ -43,6 +45,41 @@ class ModelAccessRoot
         list = modelAccessProvider.getSimilarMedicaments("ibuprofen", 20);
         if(list != null)
             System.out.println(CollectionHelper.collectionToString(list, " "));
+
+        double v = modelAccessProvider.calculateSimilarity("grün", "röt");
+        System.out.println("\n");
+        List<String> roteBeete = modelAccessProvider.findOrthographicallyCloseWordsTo("roteBeete", 0.99d);
+        if(roteBeete == null) System.out.println("Rote Beete null");
+        else System.out.println("Rote Beete: " + roteBeete);
+        System.out.println("\n");
+        List<String> words = modelAccessProvider.findOrthographicallyCloseWordsTo("aspirin", 0.85d);
+        if(words == null) System.out.println("apsirin words null");
+        else System.out.println("ASPIRIN: " + words);
+        System.out.println("\n");
+        Collection<String> semanticallySimilarWordsTo = modelAccessProvider.findSemanticallySimilarWordsTo(Arrays.asList("aspirin", "rückenschmerzen"), Arrays.asList("KoPFschmerzen"), 20);
+        if(semanticallySimilarWordsTo == null) System.out.println("Semantically similar words NULL");
+        else System.out.println("semanticall similar words: " + semanticallySimilarWordsTo);
+        System.out.println("\n");
+        Collection<String> semanticallySimilarWordsTo2 = modelAccessProvider.findSemanticallySimilarWordsTo(Arrays.asList("word", "embeddings"), Arrays.asList("root"), 20);
+        if(semanticallySimilarWordsTo2 == null) System.out.println("Semantically similar words _2_ NULL");
+        else System.out.println("semanticall similar words  _2_: " + semanticallySimilarWordsTo2);
+        System.out.println("\n");
+        Collection<String> someWord = modelAccessProvider.findSemanticallySimilarWordsTo("someWord", 10);
+        if(someWord == null) System.out.println("someWord NULL");
+        else System.out.println("SomeWord: " + someWord);
+        System.out.println("\n");
+        Collection<String> someWord2 = modelAccessProvider.findSemanticallySimilarWordsTo("übelKEIT", 10);
+        if(someWord2 == null) System.out.println("someWord _2_ NULL");
+        else System.out.println("SomeWord _2_: " + someWord2);
+        System.out.println("\n");
+        Collection<String> aspirin_rueckenschmerZEN = modelAccessProvider.findSemanticallySimilarWordsUsingVectorMean(Arrays.asList("aspirin", "rückenschmerZEN"), 10);
+        if(aspirin_rueckenschmerZEN == null) System.out.println("AspRueck NULL");
+        else System.out.println("AspRueck: " + aspirin_rueckenschmerZEN);
+        System.out.println("\n");
+        Collection<String> aspirin_rueckenschmerZEN2 = modelAccessProvider.findSemanticallySimilarWordsUsingVectorMean(Arrays.asList("grmblbtz", "someOtherWordThatIsNotInTheVocab"), 10);
+        if(aspirin_rueckenschmerZEN2 == null) System.out.println("AspRueck _2_ NULL");
+        else System.out.println("AspRueck _2_: " + aspirin_rueckenschmerZEN2);
+        System.out.println("\n");
 
 //        list = modelAccessProvider.getSimilarMedicaments("ass", 20);
 //        if(list != null)
