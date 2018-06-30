@@ -55,14 +55,17 @@ public class Word2VecModelAccessor implements IModelAccessor
      *
      * KEEPING THIS FOR POSSIBLE FUTURE USE IN A DIFFERENT SETTING
      */
-    private List<String> testWordsNearest(String word, int topX)
+    public Pair<List<String>, List<String>> getMostAndLeastSimilarWordsTo(String word, int topX, int botX)
     {
         List<Pair<String, Float>> similarityInfo = PostprocessingUtils.computeSimilarityInfo(_model, word);
         similarityInfo.sort(Collections.reverseOrder((o1, o2) -> Float.compare(o1.getValue(), o2.getValue())));
-        List<String> output = new ArrayList<>();
+        List<String> upper = new ArrayList<>();
+        List<String> lower = new ArrayList<>();
         for(int i = 0; i < topX; i++)
-            output.add(similarityInfo.get(i).getKey());
-        return output;
+            upper.add(similarityInfo.get(i).getKey());
+        for(int i = 1; i <= botX; i++)
+            lower.add(similarityInfo.get(similarityInfo.size() - i).getKey());
+        return new Pair<>(upper, lower);
     }
 
     //region Interface Methods
@@ -150,6 +153,12 @@ public class Word2VecModelAccessor implements IModelAccessor
     public Collection<String> findSemanticallySimilarWordsToUsingVectorMean(Collection<String> words, int getTopXWords)
     {
         return _model.wordsNearest(_model.getWordVectorsMean(words), getTopXWords);
+    }
+
+    @Override
+    public Word2Vec getModel()
+    {
+        return _model;
     }
 
     //endregion

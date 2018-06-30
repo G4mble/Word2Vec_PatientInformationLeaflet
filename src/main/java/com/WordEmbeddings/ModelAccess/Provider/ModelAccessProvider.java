@@ -14,6 +14,8 @@ import com.WordEmbeddings.ModelAccess.Accessor.Word2VecModelAccessor;
 import static com.ea.async.Async.await;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
+import javafx.util.Pair;
+import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.slf4j.Logger;
 
 import java.nio.charset.StandardCharsets;
@@ -161,6 +163,11 @@ public class ModelAccessProvider
         return w2vSimList;
     }
 
+    public Pair<List<String>, List<String>> getMostAndLeastSimilarWordsTo(String word, int topX, int botX)
+    {
+        return _modelAccessor.getMostAndLeastSimilarWordsTo(word, topX, botX);
+    }
+
     //endregion
 
     //endregion
@@ -195,6 +202,15 @@ public class ModelAccessProvider
     private Collection<String> findSemanticallySimilarWordsCore(String word, int numberOfCloseWords)
     {
         return _modelAccessor.findSemanticallySimilarWordsTo(word, numberOfCloseWords);
+    }
+
+    //endregion
+
+    //region Protected Methods
+
+    public Word2Vec getModel()
+    {
+        return _modelAccessor.getModel();
     }
 
     //endregion
