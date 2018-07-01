@@ -1,6 +1,7 @@
 package com.WordEmbeddings.ModelAccess;
 
 import com.Configuration.ModelAccessConfiguration;
+import com.Utility.Helper.CollectionHelper;
 import com.Utility.Helper.ResourceProvider;
 import com.WordEmbeddings.ModelAccess.Provider.ModelAccessProvider;
 import com.WordEmbeddings.ModelAccess.TSNE.TSNEPlotter;
@@ -44,27 +45,55 @@ class ModelAccessRoot
         }
         //TODO do some stuff with modelAccessProvider here
 
-        try
-        {
-            Word2Vec model = modelAccessProvider.getModel();
+        Collection<String> list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("zahnschmerzen", 20);
+        if(list != null)
+            System.out.println("zahnschmerzen: " + CollectionHelper.collectionToString(list, " ") + "\n");
 
-//            List<String> etilefrin = (ArrayList<String>)modelAccessProvider.getSimilarMedicaments("effortil", 50);
-//            etilefrin.add("effortil");
-//            List<String> ilja = (ArrayList<String>)modelAccessProvider.getSimilarMedicaments("aciclovir", 50);
-//            ilja.add("aciclovir");
-//            etilefrin.addAll(ilja);
-//            INDArray wordVectors = model.getWordVectors(etilefrin);
+        list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("nichtopioid", 20);
+        if(list != null)
+            System.out.println("nichtopioid: " + CollectionHelper.collectionToString(list, " ") + "\n");
 
-            List<String> nonPresMeds = Files.readAllLines(ResourceProvider.getLocalResource("data/non_prespricption_meds.txt"), StandardCharsets.UTF_8);
-            INDArray wordVectors = model.getWordVectors(nonPresMeds);
+        list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("antirheumatikum", 20);
+        if(list != null)
+            System.out.println("antirheumatikum: " + CollectionHelper.collectionToString(list, " ") + "\n");
 
-            TSNEPlotter tsnePlotter = new TSNEPlotter();
-            tsnePlotter.plotInput(wordVectors, nonPresMeds, "G:\\IntelliJIdea\\Word2Vec_PatientInformationLeaflet\\tsne-coords.csv");
-        }
-        catch (Exception ex)
-        {
-            _log.error("Unexpected error in main.", ex);
-        }
+        list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("schilddrüse", 20);
+        if(list != null)
+            System.out.println("schilddrüse: " + CollectionHelper.collectionToString(list, " ") + "\n");
+
+        list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("schilddrüsenüberfunktion", 20);
+        if(list != null)
+            System.out.println("schilddrüsenüberfunktion: " + CollectionHelper.collectionToString(list, " ") + "\n");
+
+        list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("schilddrüsenunterfunktion", 20);
+        if(list != null)
+            System.out.println("schilddrüsenunterfunktion: " + CollectionHelper.collectionToString(list, " ") + "\n");
+
+        list = modelAccessProvider.getSimilarMedicamentsToNonMedInput("migräne", 20);
+        if(list != null)
+            System.out.println("migräne: " + CollectionHelper.collectionToString(list, " ") + "\n");
+
+//        try
+//        {
+//            Word2Vec model = modelAccessProvider.getModel();
+//
+////            List<String> etilefrin = (ArrayList<String>)modelAccessProvider.getSimilarMedicaments("effortil", 50);
+////            etilefrin.add("effortil");
+////            List<String> ilja = (ArrayList<String>)modelAccessProvider.getSimilarMedicaments("aciclovir", 50);
+////            ilja.add("aciclovir");
+////            etilefrin.addAll(ilja);
+////            INDArray wordVectors = model.getWordVectors(etilefrin);
+//
+//            List<String> nonPresMeds = Files.readAllLines(ResourceProvider.getLocalResource("data/non_prespricption_meds.txt"), StandardCharsets.UTF_8);
+//            INDArray wordVectors = model.getWordVectors(nonPresMeds);
+//
+//            TSNEPlotter tsnePlotter = new TSNEPlotter();
+//            tsnePlotter.plotInput(wordVectors, nonPresMeds, "G:\\IntelliJIdea\\Word2Vec_PatientInformationLeaflet\\tsne-coords.csv");
+//        }
+//        catch (Exception ex)
+//        {
+//            _log.error("Unexpected error in main.", ex);
+//        }
 
 
 //        Collection<String> list = modelAccessProvider.getSimilarMedicaments("aspirin", 20);

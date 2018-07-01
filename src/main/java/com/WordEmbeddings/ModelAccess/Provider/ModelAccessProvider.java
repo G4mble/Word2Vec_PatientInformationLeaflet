@@ -116,6 +116,34 @@ public class ModelAccessProvider
 
     //region Med-Specific Methods
 
+    /***
+     * NULL CHECK ON RETURN VALUE IS ADVISED
+     * Takes a SINGLE word and looks for matching medicaments until the amount specified is reached
+     * @return NULL if an error occured or the input word is not in the vocabulary
+     */
+    public Collection<String> getSimilarMedicamentsToNonMedInput(String nonMedWord, int exactNumberOfOutputWords)
+    {
+        String[] split = nonMedWord.split(" ");
+        nonMedWord = split[0];
+        nonMedWord = PreprocessingHelper.preprocessSingleElement(nonMedWord, _preprocessingUtils);
+        if(nonMedWord.length() < 3 || !hasWordCore(nonMedWord))
+            return null;
+
+        int stepSize = 20;
+        // subtract stepSize once to account for addition in the loop
+        int internalCount = exactNumberOfOutputWords - stepSize;
+
+        Collection<String> w2vSimList;
+        do
+        {
+            internalCount += stepSize;
+            w2vSimList = findSemanticallySimilarWordsCore(nonMedWord, internalCount);
+            w2vSimList.retainAll(_nonPrescriptionMeds);
+        } while (w2vSimList.size() < exactNumberOfOutputWords);
+
+        return w2vSimList.size() > 0 ? w2vSimList : null;
+    }
+
     /**
      * NULL CHECK ON RETURN VALUE IS ADVISED
      * Looks up similar words to the input, and filters the output using a list of preprocessed medicaments
@@ -157,15 +185,12 @@ public class ModelAccessProvider
             w2vSimList.retainAll(_nonPrescriptionMeds);
         }while(w2vSimList.size() == 0 && index < maxIndex);
 
-        if(w2vSimList.size() == 0)
-            w2vSimList = null;
-
-        return w2vSimList;
+        return w2vSimList.size() > 0 ? w2vSimList : null;
     }
 
     public Pair<List<String>, List<String>> getMostAndLeastSimilarWordsTo(String word, int topX, int botX)
     {
-        return _modelAccessor.getMostAndLeastSimilarWordsTo(word, topX, botX);
+        return getMostAndLeastSimilarWordsCore(word, topX, botX);
     }
 
     //endregion
@@ -202,6 +227,11 @@ public class ModelAccessProvider
     private Collection<String> findSemanticallySimilarWordsCore(String word, int numberOfCloseWords)
     {
         return _modelAccessor.findSemanticallySimilarWordsTo(word, numberOfCloseWords);
+    }
+
+    private Pair<List<String>, List<String>> getMostAndLeastSimilarWordsCore(String word, int topX, int botX)
+    {
+        return _modelAccessor.getMostAndLeastSimilarWordsTo(word, topX, botX);
     }
 
     //endregion

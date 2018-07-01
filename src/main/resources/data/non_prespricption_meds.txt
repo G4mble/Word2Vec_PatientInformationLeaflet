@@ -27,7 +27,6 @@ thioctacid
 contractubex
 otriven
 benuron
-ben
 halbmond
 bepanthen
 venoruton
@@ -227,7 +226,6 @@ chlorhexamed
 chlorhexidindigluconat
 pyralvex
 emser
-gripp
 heel
 nisylen
 ringer
@@ -237,13 +235,11 @@ dolgit
 duofilm
 onychomal
 gluti
-agil
 arhama
 erno
 antiphosphat
 tinatox
 tiger
-toxi
 loges
 oculotect
 bismutum
@@ -256,7 +252,6 @@ goldgeist
 amol
 ginkgo
 biloba
-comp
 hevert
 myrrhinil
 intest
@@ -357,8 +352,6 @@ nervo
 konakion
 unizink
 lipazym
-med
-trauma
 uralyt
 folsaeure
 marduk
@@ -837,7 +830,6 @@ folverlan
 abtei
 psychotonin
 asmedic
-kalium
 calciumfolinat
 ideos
 magnaspart
@@ -1057,7 +1049,6 @@ loratadin
 lora
 pulmotin
 eudorlin
-pro
 mercurialis
 pyrogenium
 mitosyl
@@ -1214,7 +1205,6 @@ bomacorin
 aftab
 enzynorm
 hepabesch
-migraene
 hanotoxin
 apovital
 fluegge
@@ -1288,7 +1278,6 @@ pascorbin
 cefagrippin
 aescin
 apocit
-kaliumiodid
 jodinat
 freka
 lipidavit
@@ -1606,7 +1595,6 @@ sanopinwern
 ciclocutan
 utk
 herpolips
-kaliumcitrat
 desma
 miclast
 geloprosed
@@ -1767,7 +1755,6 @@ zugsalbe
 thioctsaeure
 naradex
 bromuc
-nasen
 ginkgovital
 paramol
 renamag
