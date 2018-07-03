@@ -121,7 +121,7 @@ public class ModelAccessProvider
      */
     private Collection<String> getSimilarMedicamentsWithSimilarityBound(String word, float similarityLowerBound)
     {
-        List<String> inputSplit = PreprocessingHelper.preprocessElementToList(word, _preprocessingUtils);
+        List<String> inputSplit = PreprocessingHelper.preprocessElementFromStringToList(word, _preprocessingUtils);
         if(inputSplit == null)
             return null;
 
