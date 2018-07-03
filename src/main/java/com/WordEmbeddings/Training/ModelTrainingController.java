@@ -44,7 +44,7 @@ class ModelTrainingController
                     .workers(_processConfig.getWorkers())
                     .allowParallelTokenization(_processConfig.allowParallelTokenization())
                     .useHierarchicSoftmax(_processConfig.useHierarchicSoftmax())
-                    .negativeSample(_processConfig.getNegativeSample())
+//                    .negativeSample(_processConfig.getNegativeSample())
                     .minWordFrequency(_processConfig.getMinWordFrequency())
                     .batchSize(_processConfig.getBatchSize())
                     .iterations(_processConfig.getIterations())

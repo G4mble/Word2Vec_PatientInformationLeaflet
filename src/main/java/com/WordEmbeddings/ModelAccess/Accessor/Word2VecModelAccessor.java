@@ -55,14 +55,17 @@ public class Word2VecModelAccessor implements IModelAccessor
      *
      * KEEPING THIS FOR POSSIBLE FUTURE USE IN A DIFFERENT SETTING
      */
-    private List<String> testWordsNearest(String word, int topX)
+    public Pair<List<String>, List<String>> getMostAndLeastSimilarWordsTo(String word, int topX, int botX)
     {
         List<Pair<String, Float>> similarityInfo = PostprocessingUtils.computeSimilarityInfo(_model, word);
         similarityInfo.sort(Collections.reverseOrder((o1, o2) -> Float.compare(o1.getValue(), o2.getValue())));
-        List<String> output = new ArrayList<>();
+        List<String> upper = new ArrayList<>();
+        List<String> lower = new ArrayList<>();
         for(int i = 0; i < topX; i++)
-            output.add(similarityInfo.get(i).getKey());
-        return output;
+            upper.add(similarityInfo.get(i).getKey());
+        for(int i = 1; i <= botX; i++)
+            lower.add(similarityInfo.get(similarityInfo.size() - i).getKey());
+        return new Pair<>(upper, lower);
     }
 
     /**
@@ -163,6 +166,25 @@ public class Word2VecModelAccessor implements IModelAccessor
     public Collection<String> findSemanticallySimilarWordsTo(Collection<String> positiveWords, Collection<String> negativeWords, int getTopXWords)
     {
         return _model.wordsNearest(positiveWords, negativeWords, getTopXWords);
+    }
+
+    /**
+     * Calculates the mean vector from the words in the input list.
+     * Searches the vocabulary for words that appear to have a similiar meaning as the mean-word.
+     * @param words A Collection of words of which the mean is to used as an input for a 'findSemanticallySimilarWordsTo' query.
+     * @param getTopXWords The amount of words that should be returned at most.
+     * @return A Collection of words similar to the mean-word of the input words.
+     */
+    @Override
+    public Collection<String> findSemanticallySimilarWordsToUsingVectorMean(Collection<String> words, int getTopXWords)
+    {
+        return _model.wordsNearest(_model.getWordVectorsMean(words), getTopXWords);
+    }
+
+    @Override
+    public Word2Vec getModel()
+    {
+        return _model;
     }
 
     //endregion
