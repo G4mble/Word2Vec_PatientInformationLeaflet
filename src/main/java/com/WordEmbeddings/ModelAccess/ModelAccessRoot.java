@@ -37,21 +37,24 @@ class ModelAccessRoot
             return;
         }
         //TODO do some stuff with modelAccessProvider here
-        Collection<String> list = modelAccessProvider.getSimilarMedicaments("aspirin", 20);
+        Collection<String> list = modelAccessProvider.getSimilarMedicaments("aspirin c orange", 20);
         if(list != null)
             System.out.println(CollectionHelper.collectionToString(list, " "));
-        list = modelAccessProvider.getSimilarMedicaments("ibuprofen", 20);
+        System.out.println("\n");
+        list = modelAccessProvider.getSimilarMedicaments("ibuprofen wirkstoff aspirin", 20);
         if(list != null)
             System.out.println(CollectionHelper.collectionToString(list, " "));
-
-//        list = modelAccessProvider.getSimilarMedicaments("ass", 20);
-//        if(list != null)
-//            System.out.println(CollectionHelper.collectionToString(list, " "));
-//        list = modelAccessProvider.getSimilarMedicaments("hustensaft", 20);
-//        if(list != null)
-//            System.out.println(CollectionHelper.collectionToString(list, " "));
-//        list = modelAccessProvider.getSimilarMedicaments("kopfschmerzen", 20);
-//        if(list != null)
-//            System.out.println(CollectionHelper.collectionToString(list, " "));
+        System.out.println("\n");
+        list = modelAccessProvider.getSimilarMedicaments("ass", 20);
+        if(list != null)
+            System.out.println(CollectionHelper.collectionToString(list, " "));
+        System.out.println("\n");
+        list = modelAccessProvider.getSimilarMedicaments("hustensaft", 20);
+        if(list != null)
+            System.out.println(CollectionHelper.collectionToString(list, " "));
+        System.out.println("\n");
+        list = modelAccessProvider.getSimilarMedicaments("kopfschmerzen", 20);
+        if(list != null)
+            System.out.println(CollectionHelper.collectionToString(list, " "));
     }
 }

@@ -65,6 +65,32 @@ public class Word2VecModelAccessor implements IModelAccessor
         return output;
     }
 
+    /**
+     * NULL CHECK IS ADVISED
+     *
+     * @param word reference word
+     * @param simLowerBound minimum similarity between the input word and a word in the output
+     * @param maxItems maximum number of items returned
+     * @return NULL if no items found // List of words similar (above the lowerBound) to the input
+     */
+    public List<String> getWordsNearestWithSimilarityThreshold(String word, float simLowerBound, int maxItems)
+    {
+        List<Pair<String, Float>> simInfo = PostprocessingUtils.computeSimilarityInfo(_model, word);
+        simInfo.sort(Collections.reverseOrder((o1, o2) -> Float.compare(o1.getValue(), o2.getValue())));
+        if(maxItems >= simInfo.size())
+            maxItems = simInfo.size() - 1;
+
+        List<String> output = new ArrayList<>();
+        for(int i = 0; i < maxItems; i++)
+        {
+            if(simInfo.get(i).getValue() >= simLowerBound)
+                output.add(simInfo.get(i).getKey());
+            else
+                break;
+        }
+        return output.size() > 0 ? output : null;
+    }
+
     //region Interface Methods
 
     @Override

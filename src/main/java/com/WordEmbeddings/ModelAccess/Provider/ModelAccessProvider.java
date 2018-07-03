@@ -78,9 +78,44 @@ public class ModelAccessProvider
 
     //region Med-Specific Methods
 
+    /***
+     *  THIS IS FOR TEST PURPOSES -- DO NOT USE
+     */
+    private Collection<String> getSimilarMedicamentsWithSimilarityBound(String word, float similarityLowerBound)
+    {
+        List<String> inputSplit = PreprocessingHelper.preprocessElementToList(word, _preprocessingUtils);
+        if(inputSplit == null)
+            return null;
+
+        List<String> duplicateList = new ArrayList<>(inputSplit);
+        duplicateList.retainAll(_nonPrescriptionMeds);
+
+        if(duplicateList.size() == 0)
+            duplicateList = new ArrayList<>(inputSplit);
+
+        inputSplit.removeAll(duplicateList);
+        duplicateList.addAll(inputSplit);
+
+        int count = 0;
+        int max = duplicateList.size();
+        Collection<String> w2vSimList = new ArrayList<>();
+        do
+        {
+            String currentWord = duplicateList.get(count);
+            count++;
+            if(!_modelAccessor.hasWord(currentWord))
+                continue;
+
+            w2vSimList = _modelAccessor.getWordsNearestWithSimilarityThreshold(currentWord, similarityLowerBound, 500);
+            w2vSimList.retainAll(_nonPrescriptionMeds);
+        }while(w2vSimList.size() == 0 && count < max);
+
+        return w2vSimList.size() > 0 ? w2vSimList : null;
+    }
+
     /**
      * NULL CHECK ON RETURN VALUE IS ADVISED
-     * Looks up similar words to the input, and filters the output using a list of preprocessed medicaments
+     * Looks up similar words to the input, and filters the output using a list o   f preprocessed medicaments
      * @param word The input word
      * @param maxNumberOfOutputWords How many words will be returned by Word2Vec. Does NOT necessarily correspond to
      *                               the number of list entries that are returned as the Word2Vec output is filtered first.

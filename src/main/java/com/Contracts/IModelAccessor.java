@@ -12,4 +12,5 @@ public interface IModelAccessor
     List<String> findOrthographicallyCloseWordsTo(String word, double accuracy);
     Collection<String> findSemanticallySimilarWordsTo(String word,  int numberOfCloseWords);
     Collection<String> findSemanticallySimilarWordsTo(Collection<String> positiveWords, Collection<String> negativeWords,  int numberOfCloseWords);
+    List<String> getWordsNearestWithSimilarityThreshold(String word, float simLowerBound, int maxItems);
 }
